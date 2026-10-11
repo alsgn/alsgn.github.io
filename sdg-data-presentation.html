@@ -1,0 +1,2145 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SDGs — 데이터와 협력</title>
+    <style>
+      @import url("");
+      :root {
+        --paper: #f5f3ee;
+        --ink: #202021;
+        --muted: #77746f;
+        --violet: #bdb4ff;
+        --coral: #ff6247;
+        --yellow: #ffb928;
+        --teal: #4dbcb6;
+        --blue: #a9d2ef;
+        --green: #b8d884;
+        --white: #fffdf8;
+        --shadow: 0 14px 34px rgba(35, 29, 24, 0.1);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+      }
+      body {
+        background: #e8e5de;
+        color: var(--ink);
+        font-family:
+          "S-Core Dream", "SCoreDream", "에스코어 드림", Pretendard,
+          "Apple SD Gothic Neo", sans-serif;
+        letter-spacing: -0.035em;
+        overflow: hidden;
+      }
+      .app {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+      .topbar {
+        height: 48px;
+        flex: none;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 24px;
+        color: #6e6a63;
+        font-size: 12px;
+        letter-spacing: 0.04em;
+      }
+      .brand {
+        font-weight: 800;
+        color: #252321;
+      }
+      .top-right {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+      }
+      .progress {
+        width: 88px;
+        height: 3px;
+        background: #d4d0c8;
+        border-radius: 4px;
+        overflow: hidden;
+      }
+      .progress i {
+        display: block;
+        height: 100%;
+        width: 0;
+        background: var(--coral);
+        transition: width 0.3s;
+      }
+      .stage {
+        flex: 1;
+        min-height: 0;
+        display: grid;
+        place-items: center;
+        padding: 8px 24px 18px;
+      }
+      .slide {
+        display: none;
+        position: relative;
+        flex: none;
+        width: min(calc((100vh - 128px) * 1.7778), calc(100vw - 48px));
+        height: min(calc(100vh - 128px), calc((100vw - 48px) * 0.5625));
+        min-height: 0;
+        overflow: hidden;
+        border-radius: 17px;
+        background: var(--paper);
+        box-shadow: var(--shadow);
+        padding: 6.1% 7%;
+        isolation: isolate;
+      }
+      .slide.active {
+        display: flex;
+        flex-direction: column;
+      }
+      .slide:before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background: var(--bg, var(--paper));
+      }
+      .slide:after {
+        content: "";
+        position: absolute;
+        width: 29%;
+        aspect-ratio: 1;
+        right: -11%;
+        bottom: -19%;
+        border-radius: 50%;
+        background: var(--accent, var(--yellow));
+        opacity: 0.95;
+        z-index: -1;
+      }
+      .slide.cover {
+        --bg: var(--violet);
+        --accent: var(--coral);
+      }
+      .slide.section {
+        --bg: var(--coral);
+        --accent: var(--yellow);
+      }
+      .slide.dark {
+        --bg: #252321;
+        --accent: var(--teal);
+        color: var(--white);
+      }
+      .slide.yellow {
+        --bg: var(--yellow);
+        --accent: var(--violet);
+      }
+      .slide.teal {
+        --bg: var(--teal);
+        --accent: var(--yellow);
+      }
+      .slide.blue {
+        --bg: var(--blue);
+        --accent: var(--coral);
+      }
+      #stage > .slide,
+      #stage > .slide.active {
+        width: min(
+          calc((100vh - 128px) * 1.7778),
+          calc(100vw - 48px)
+        ) !important;
+        height: min(
+          calc(100vh - 128px),
+          calc((100vw - 48px) * 0.5625)
+        ) !important;
+        max-width: none;
+        max-height: none;
+        aspect-ratio: 16/9;
+        flex: none;
+      }
+      .eyebrow {
+        font-size: clamp(10px, 1vw, 14px);
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        opacity: 0.72;
+        margin-bottom: 1.6%;
+      }
+      .title {
+        font-size: clamp(24px, 3.4vw, 50px);
+        line-height: 1.17;
+        font-weight: 800;
+        letter-spacing: -0.06em;
+        max-width: 86%;
+        margin: 0 0 2.8%;
+      }
+      .subtitle {
+        font-size: clamp(13px, 1.42vw, 20px);
+        line-height: 1.5;
+        max-width: 72%;
+        font-weight: 500;
+        color: color-mix(in srgb, currentColor 78%, transparent);
+        margin: 0 0 3%;
+      }
+      .body {
+        display: grid;
+        grid-template-columns: 1fr 34%;
+        gap: 5%;
+        align-items: center;
+        flex: 1;
+        min-height: 0;
+      }
+      .body.full {
+        grid-template-columns: 1fr;
+      }
+      .points {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        gap: clamp(8px, 1.2vw, 16px);
+      }
+      .points li {
+        font-size: clamp(13px, 1.5vw, 21px);
+        line-height: 1.42;
+        padding-left: 1.05em;
+        position: relative;
+        max-width: 58em;
+      }
+      .points li:before {
+        content: "";
+        position: absolute;
+        width: 0.38em;
+        height: 0.38em;
+        border-radius: 50%;
+        left: 0;
+        top: 0.53em;
+        background: var(--dot, var(--coral));
+      }
+      .dark .points li:before {
+        background: var(--yellow);
+      }
+      .points strong {
+        font-weight: 800;
+      }
+      .side {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 70%;
+        position: relative;
+      }
+      .shape {
+        width: min(100%, 260px);
+        aspect-ratio: 1;
+        border-radius: 29% 71% 55% 45%/45% 45% 55% 55%;
+        background: var(--accent, var(--yellow));
+        display: grid;
+        place-items: center;
+        transform: rotate(-7deg);
+        position: relative;
+      }
+      .shape:before,
+      .shape:after {
+        content: "";
+        position: absolute;
+        border-radius: 50%;
+        background: var(--bg, var(--paper));
+        opacity: 0.55;
+      }
+      .shape:before {
+        width: 25%;
+        height: 25%;
+        left: 14%;
+        top: 12%;
+      }
+      .shape:after {
+        width: 13%;
+        height: 13%;
+        right: 12%;
+        bottom: 17%;
+      }
+      .bigstat {
+        font-size: clamp(42px, 7vw, 100px);
+        line-height: 1;
+        font-weight: 800;
+        letter-spacing: -0.09em;
+      }
+      .statlabel {
+        font-size: clamp(12px, 1.3vw, 18px);
+        line-height: 1.4;
+        font-weight: 700;
+        margin-top: 12px;
+        max-width: 15em;
+        text-align: center;
+      }
+      .statbox {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 10%;
+        background: var(--white);
+        border-radius: 18px;
+        box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
+        transform: rotate(2deg);
+        min-width: 72%;
+      }
+      .dark .statbox {
+        color: var(--ink);
+      }
+      .mini {
+        font-size: clamp(10px, 1vw, 14px);
+        color: var(--muted);
+        margin-top: auto;
+        padding-top: 2%;
+        position: relative;
+        z-index: 1;
+      }
+      .dark .mini {
+        color: #c4c1ba;
+      }
+      .source-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.25em 1.2em;
+        line-height: 1.35;
+      }
+      .source-links a {
+        color: inherit;
+        text-decoration: underline;
+        text-decoration-color: currentColor;
+        text-underline-offset: 2px;
+      }
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2%;
+        width: 100%;
+      }
+      .card {
+        background: var(--white);
+        padding: 5% 6%;
+        border-radius: 16px;
+        min-height: 96px;
+        box-shadow: 0 7px 20px rgba(0, 0, 0, 0.06);
+      }
+      .card b {
+        font-size: clamp(23px, 3vw, 42px);
+        display: block;
+        line-height: 1.1;
+        letter-spacing: -0.07em;
+      }
+      .card span {
+        font-size: clamp(11px, 1.1vw, 15px);
+        display: block;
+        margin-top: 9px;
+        line-height: 1.35;
+        color: #66615b;
+      }
+      .dark .card {
+        color: var(--ink);
+      }
+      .chart {
+        width: 100%;
+        display: grid;
+        gap: 12px;
+      }
+      .barrow {
+        display: grid;
+        grid-template-columns: 90px 1fr 46px;
+        gap: 10px;
+        align-items: center;
+        font-size: clamp(10px, 1.1vw, 15px);
+        font-weight: 700;
+      }
+      .bartrack {
+        height: 16px;
+        border-radius: 20px;
+        background: rgba(30, 30, 30, 0.1);
+        overflow: hidden;
+      }
+      .barfill {
+        height: 100%;
+        border-radius: 20px;
+        background: var(--bar, var(--coral));
+        width: var(--w);
+      }
+      .barrow em {
+        font-style: normal;
+        text-align: right;
+      }
+      .compare {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2%;
+        width: 100%;
+      }
+      .compare > div {
+        background: var(--white);
+        border-radius: 15px;
+        padding: 5%;
+        box-shadow: 0 7px 20px rgba(0, 0, 0, 0.06);
+      }
+      .compare h3 {
+        font-size: clamp(14px, 1.6vw, 22px);
+        margin: 0 0 14px;
+      }
+      .compare p {
+        font-size: clamp(12px, 1.25vw, 17px);
+        line-height: 1.45;
+        margin: 8px 0;
+      }
+      .table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: clamp(11px, 1.15vw, 16px);
+        background: var(--white);
+        border-radius: 14px;
+        overflow: hidden;
+      }
+      .table th,
+      .table td {
+        text-align: left;
+        vertical-align: top;
+        padding: 1.7% 2%;
+        border-bottom: 1px solid #e7e3dc;
+        line-height: 1.35;
+      }
+      .table th {
+        background: rgba(255, 185, 40, 0.35);
+        font-weight: 800;
+      }
+      .table tr:last-child td {
+        border-bottom: 0;
+      }
+      .question {
+        font-size: clamp(22px, 3.2vw, 46px);
+        line-height: 1.24;
+        font-weight: 800;
+        max-width: 84%;
+        letter-spacing: -0.055em;
+      }
+      .footer {
+        position: absolute;
+        bottom: 4.3%;
+        left: 7%;
+        font-size: 10px;
+        letter-spacing: 0.06em;
+        opacity: 0.58;
+      }
+      .page {
+        position: absolute;
+        bottom: 4.1%;
+        right: 7%;
+        font-size: 11px;
+        font-weight: 800;
+        opacity: 0.65;
+      }
+      .cover .title {
+        font-size: clamp(38px, 6vw, 86px);
+        max-width: 75%;
+        margin-top: 5%;
+      }
+      .cover .subtitle {
+        font-size: clamp(16px, 2vw, 28px);
+        max-width: 60%;
+      }
+      .cover-art {
+        position: absolute;
+        right: 7%;
+        bottom: 8%;
+        width: 26%;
+        aspect-ratio: 1;
+        border-radius: 45% 55% 41% 59%/45% 40% 60% 55%;
+        background: var(--yellow);
+        transform: rotate(9deg);
+        display: grid;
+        place-items: center;
+        box-shadow: 10px 12px 0 rgba(32, 32, 33, 0.13);
+      }
+      .controls {
+        height: 54px;
+        flex: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        color: #55514b;
+      }
+      .controls button {
+        border: 0;
+        background: var(--white);
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        font: inherit;
+        font-weight: 800;
+        cursor: pointer;
+        box-shadow: 0 3px 9px rgba(0, 0, 0, 0.08);
+      }
+      .controls button:hover {
+        background: var(--yellow);
+      }
+      .counter {
+        font-size: 12px;
+        min-width: 54px;
+        text-align: center;
+        font-weight: 700;
+      }
+      .hint {
+        font-size: 11px;
+        color: #858078;
+        position: absolute;
+        right: 24px;
+      }
+      .overview {
+        position: fixed;
+        inset: 0;
+        background: rgba(28, 27, 25, 0.88);
+        z-index: 10;
+        display: none;
+        overflow: auto;
+        padding: 35px;
+      }
+      .overview.open {
+        display: block;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 18px;
+      }
+      .thumb {
+        aspect-ratio: 16/9;
+        border-radius: 12px;
+        box-shadow: 0 5px 15px #0004;
+        padding: 17px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        cursor: pointer;
+        overflow: hidden;
+      }
+      .thumb b {
+        font-size: 16px;
+        line-height: 1.2;
+      }
+      .thumb small {
+        opacity: 0.65;
+        font-size: 10px;
+      }
+      .close {
+        position: fixed;
+        top: 14px;
+        right: 20px;
+        border: 0;
+        border-radius: 50%;
+        width: 38px;
+        height: 38px;
+        font-size: 18px;
+        cursor: pointer;
+      }
+      @media (max-width: 700px) {
+        .topbar {
+          padding: 0 12px;
+        }
+        .stage {
+          padding: 5px 8px 12px;
+        }
+        .slide {
+          width: min(calc((100vh - 119px) * 1.7778), calc(100vw - 16px));
+          height: min(calc(100vh - 119px), calc((100vw - 16px) * 0.5625));
+          padding: 7% 6%;
+          border-radius: 12px;
+        }
+        .title {
+          max-width: 98%;
+        }
+        .subtitle {
+          max-width: 95%;
+        }
+        .body {
+          grid-template-columns: 1fr 28%;
+          gap: 3%;
+        }
+        .points li {
+          font-size: clamp(10px, 2.2vw, 15px);
+          gap: 5px;
+        }
+        .side {
+          min-height: 40%;
+        }
+        .shape {
+          width: 100%;
+        }
+        .cards {
+          gap: 1%;
+        }
+        .card {
+          padding: 6% 4%;
+          min-height: 0;
+        }
+        .footer {
+          left: 6%;
+        }
+        .page {
+          right: 6%;
+        }
+        .hint {
+          display: none;
+        }
+      }
+      @media (max-width: 700px) {
+        #stage > .slide,
+        #stage > .slide.active {
+          width: min(
+            calc((100vh - 119px) * 1.7778),
+            calc(100vw - 16px)
+          ) !important;
+          height: min(
+            calc(100vh - 119px),
+            calc((100vw - 16px) * 0.5625)
+          ) !important;
+        }
+      }
+    </style>
+    <style id="editorial-overrides">
+      .points li:before {
+        content: "-";
+        width: auto;
+        height: auto;
+        border-radius: 0;
+        top: 0;
+        background: none;
+        font-weight: 700;
+        color: currentColor;
+      }
+      .dark .points li:before {
+        background: none;
+        color: var(--yellow);
+      }
+      .rows {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+      .row {
+        display: grid;
+        grid-template-columns: minmax(125px, 24%) 1fr;
+        gap: 18px;
+        align-items: start;
+        padding: 14px 0;
+        border-bottom: 1px solid rgba(32, 32, 33, 0.2);
+      }
+      .row:last-child {
+        border-bottom: 0;
+      }
+      .row b {
+        font-size: clamp(14px, 1.5vw, 20px);
+        line-height: 1.35;
+      }
+      .row span {
+        font-size: clamp(13px, 1.35vw, 18px);
+        line-height: 1.45;
+        color: inherit;
+      }
+      .media-placeholder {
+        width: 100%;
+        aspect-ratio: 1.25;
+        min-height: 150px;
+        display: grid;
+        place-items: center;
+        border: 1px dashed rgba(32, 32, 33, 0.45);
+        color: #77746f;
+        font-size: clamp(12px, 1.1vw, 15px);
+        letter-spacing: 0;
+        background: rgba(255, 253, 248, 0.18);
+      }
+      #stage .shape,
+      #stage .cover-art {
+        display: none;
+      }
+      @media (max-width: 700px) {
+        .row {
+          grid-template-columns: 1fr;
+          gap: 4px;
+          padding: 8px 0;
+        }
+        .media-placeholder {
+          min-height: 90px;
+        }
+      }
+    </style>
+    <style id="photo-and-intro">
+      .lead-copy {
+        font-size: clamp(17px, 2vw, 28px);
+        line-height: 1.62;
+        font-weight: 500;
+        margin: 0;
+        max-width: 37em;
+      }
+      .photo {
+        width: 100%;
+        margin: 0;
+        align-self: center;
+      }
+      .photo img {
+        display: block;
+        width: 100%;
+        aspect-ratio: 4/3;
+        object-fit: cover;
+        border-radius: 6px;
+      }
+      .photo figcaption {
+        font-size: clamp(9px, 0.85vw, 12px);
+        line-height: 1.35;
+        margin-top: 8px;
+        color: #68645e;
+      }
+      .photo a {
+        color: inherit;
+        text-decoration: underline;
+        text-underline-offset: 2px;
+      }
+      .photo.ihl-photo img {
+        aspect-ratio: 16 / 10;
+        object-fit: cover;
+      }
+      .photo.institution-photo img {
+        aspect-ratio: 16 / 10;
+        object-fit: cover;
+      }
+      @media (max-width: 700px) {
+        .lead-copy {
+          font-size: clamp(12px, 2.5vw, 16px);
+        }
+        .photo figcaption {
+          font-size: 9px;
+        }
+      }
+    </style>
+    <style id="graph-image-slides">
+      .slide.image-slide {
+        --bg: #fff !important;
+        --accent: #fff !important;
+        padding: 4% 5%;
+      }
+      .slide.image-slide:after {
+        display: none;
+      }
+      .image-slide .eyebrow {
+        margin-bottom: 0.6%;
+      }
+      .image-slide .title {
+        font-size: clamp(19px, 2.45vw, 34px);
+        margin-bottom: 1.4%;
+        max-width: 95%;
+      }
+      .body.full-media {
+        grid-template-columns: 1fr;
+      }
+      .graph-image {
+        width: 100%;
+        height: 100%;
+        min-height: 0;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .graph-image img {
+        display: block;
+        max-width: 100%;
+        max-height: 100%;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+      }
+    </style>
+    <style id="conflict-summary-layout">
+      .conflict-summary {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 22px;
+      }
+      .summary-years {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        gap: 5%;
+        align-items: center;
+        padding-bottom: 18px;
+        border-bottom: 1px solid rgba(32, 32, 33, 0.22);
+      }
+      .summary-year span {
+        display: block;
+        font-size: clamp(13px, 1.2vw, 17px);
+        font-weight: 700;
+        color: #625f59;
+      }
+      .summary-year strong {
+        font-size: clamp(38px, 5.8vw, 78px);
+        line-height: 1.05;
+        letter-spacing: -0.055em;
+        white-space: nowrap;
+      }
+      .summary-year small {
+        font-size: 0.38em;
+        letter-spacing: 0;
+      }
+      .summary-year.current strong {
+        color: #cb4937;
+      }
+      .summary-change {
+        font-size: clamp(19px, 2.2vw, 30px);
+        font-weight: 800;
+        color: #cb4937;
+        text-align: center;
+      }
+      .summary-change span {
+        display: block;
+        font-size: clamp(10px, 0.9vw, 13px);
+        color: #625f59;
+        font-weight: 600;
+      }
+      .summary-detail {
+        display: grid;
+        grid-template-columns: 1fr 1.1fr;
+        gap: 7%;
+        align-items: start;
+      }
+      .summary-detail h3 {
+        font-size: clamp(13px, 1.2vw, 17px);
+        margin: 0 0 12px;
+        font-weight: 800;
+      }
+      .summary-victims {
+        display: flex;
+        gap: 7%;
+        border-top: 1px solid rgba(32, 32, 33, 0.22);
+        padding-top: 13px;
+      }
+      .summary-victims div {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+      }
+      .summary-victims b {
+        font-size: clamp(22px, 2.8vw, 38px);
+        line-height: 1.1;
+      }
+      .summary-victims span {
+        font-size: clamp(11px, 1vw, 14px);
+        color: #625f59;
+      }
+      .summary-regions {
+        display: grid;
+        gap: 12px;
+      }
+      .summary-region {
+        display: grid;
+        grid-template-columns: minmax(155px, 42%) 1fr auto;
+        gap: 10px;
+        align-items: center;
+        font-size: clamp(10px, 1vw, 14px);
+      }
+      .summary-region > span {
+        font-weight: 600;
+      }
+      .summary-region b {
+        white-space: nowrap;
+      }
+      .summary-track {
+        height: 12px;
+        background: rgba(32, 32, 33, 0.12);
+      }
+      .summary-track i {
+        height: 100%;
+        display: block;
+        background: #f3654b;
+      }
+      @media (max-width: 700px) {
+        .conflict-summary {
+          gap: 12px;
+        }
+        .summary-years {
+          gap: 2%;
+          padding-bottom: 10px;
+        }
+        .summary-detail {
+          grid-template-columns: 1fr;
+          gap: 15px;
+        }
+        .summary-region {
+          grid-template-columns: minmax(125px, 42%) 1fr auto;
+          gap: 6px;
+        }
+        .summary-track {
+          height: 9px;
+        }
+      }
+    </style>
+    <style id="interpretation-slide-layout">
+      .slide.minimal {
+        --bg: #fff !important;
+        --accent: #fff !important;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+      .slide.minimal:after,
+      .slide.minimal .page {
+        display: none;
+      }
+      .minimal-title {
+        font-size: clamp(34px, 5vw, 68px);
+        font-weight: 800;
+        letter-spacing: -0.04em;
+        margin: 0;
+      }
+      .minimal-subtitle {
+        margin: 20px 0 0;
+        font-size: clamp(16px, 1.8vw, 24px);
+        font-weight: 600;
+        line-height: 1.4;
+      }
+      .interpretation-slide {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 8%;
+        align-items: center;
+      }
+      .interpretation-keywords {
+        display: grid;
+        gap: 18px;
+      }
+      .keyword-row {
+        display: grid;
+        grid-template-columns: 115px 1fr;
+        gap: 14px;
+        align-items: baseline;
+        border-bottom: 1px solid rgba(32, 32, 33, 0.18);
+        padding-bottom: 11px;
+      }
+      .keyword-row:last-child {
+        border-bottom: 0;
+      }
+      .keyword-row b {
+        font-size: clamp(12px, 1vw, 14px);
+        color: #625f59;
+      }
+      .keyword-row span {
+        font-size: clamp(16px, 1.55vw, 22px);
+        line-height: 1.35;
+        font-weight: 700;
+      }
+      .interpretation-stat {
+        border-left: 1px solid rgba(32, 32, 33, 0.25);
+        padding-left: 12%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .interpretation-stat strong {
+        font-size: clamp(58px, 8vw, 112px);
+        line-height: 1;
+        font-weight: 800;
+        letter-spacing: -0.06em;
+        color: #cb4937;
+      }
+      .interpretation-stat span {
+        font-size: clamp(13px, 1.35vw, 18px);
+        line-height: 1.4;
+        font-weight: 700;
+        margin-top: 10px;
+        max-width: 16em;
+      }
+      @media (max-width: 700px) {
+        .interpretation-slide {
+          grid-template-columns: 1fr;
+          gap: 16px;
+        }
+        .keyword-row {
+          grid-template-columns: 90px 1fr;
+          gap: 8px;
+        }
+        .interpretation-stat {
+          border-left: 0;
+          border-top: 1px solid rgba(32, 32, 33, 0.25);
+          padding: 12px 0 0;
+        }
+        .interpretation-stat strong {
+          font-size: 52px;
+        }
+        .interpretation-stat span {
+          margin-top: 4px;
+        }
+      }
+    </style>
+    <style id="sdg161-data-graphs">
+      .trend-graphs {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 5%;
+        align-items: start;
+      }
+      .plot h3,
+      .region-plot h3 {
+        font-size: clamp(16px, 1.7vw, 23px);
+        margin: 0 0 4px;
+        font-weight: 800;
+      }
+      .plot-caption {
+        font-size: clamp(11px, 1vw, 14px);
+        color: #625f59;
+        margin: 0 0 20px;
+      }
+      .bar-list {
+        display: grid;
+        gap: 16px;
+      }
+      .measure {
+        display: grid;
+        grid-template-columns: minmax(115px, 36%) 1fr auto;
+        gap: 10px;
+        align-items: center;
+        font-size: clamp(10px, 1vw, 14px);
+        line-height: 1.25;
+      }
+      .measure > span {
+        font-weight: 600;
+      }
+      .measure > b {
+        font-size: clamp(12px, 1.15vw, 16px);
+        white-space: nowrap;
+      }
+      .track {
+        height: 15px;
+        background: rgba(32, 32, 33, 0.12);
+        overflow: hidden;
+        border-radius: 2px;
+      }
+      .fill {
+        height: 100%;
+        display: block;
+        background: #f3654b;
+      }
+      .fill.forecast {
+        background: #d99a19;
+      }
+      .fill.target {
+        background: #343434;
+      }
+      .fill.conflict-old {
+        background: #8a8279;
+      }
+      .fill.conflict-new {
+        background: #f3654b;
+      }
+      .fill.other {
+        background: #8a8279;
+      }
+      .plot-note {
+        font-size: clamp(11px, 1.05vw, 15px);
+        line-height: 1.45;
+        margin: 18px 0 0;
+        max-width: 38em;
+      }
+      .target-track {
+        background: repeating-linear-gradient(
+          90deg,
+          rgba(32, 32, 33, 0.12) 0 5px,
+          transparent 5px 9px
+        );
+      }
+      .change {
+        display: flex;
+        align-items: baseline;
+        gap: 12px;
+        margin-top: 26px;
+        padding-top: 14px;
+        border-top: 1px solid rgba(32, 32, 33, 0.2);
+      }
+      .change strong {
+        font-size: clamp(25px, 3.2vw, 44px);
+        letter-spacing: -0.04em;
+        color: #cb4937;
+      }
+      .change span {
+        font-size: clamp(12px, 1.15vw, 16px);
+      }
+      .distribution-graph {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1.5fr 0.75fr;
+        gap: 7%;
+        align-items: start;
+      }
+      .region-plot .measure {
+        grid-template-columns: minmax(150px, 40%) 1fr auto;
+      }
+      .victim-share {
+        display: flex;
+        align-items: baseline;
+        gap: 28px;
+        border-top: 1px solid rgba(32, 32, 33, 0.2);
+        margin-top: 24px;
+        padding-top: 14px;
+        position: relative;
+      }
+      .victim-share div {
+        display: flex;
+        align-items: baseline;
+        gap: 7px;
+      }
+      .victim-share b {
+        font-size: clamp(23px, 2.6vw, 36px);
+        letter-spacing: -0.04em;
+      }
+      .victim-share span {
+        font-size: clamp(12px, 1vw, 14px);
+      }
+      .victim-share small {
+        font-size: 11px;
+        color: #625f59;
+      }
+      .safety-plot {
+        border-left: 1px solid rgba(32, 32, 33, 0.25);
+        padding-left: 8%;
+        min-height: 100%;
+      }
+      .safety-plot .plot-caption {
+        max-width: 17em;
+        line-height: 1.4;
+      }
+      .safety-number {
+        font-size: clamp(48px, 7vw, 92px);
+        line-height: 1;
+        font-weight: 800;
+        letter-spacing: -0.05em;
+        display: block;
+        margin: 10px 0 18px;
+      }
+      .steady {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 11px;
+        font-weight: 700;
+      }
+      .steady i {
+        height: 2px;
+        flex: 1;
+        background: #555;
+      }
+      .gender-note {
+        font-size: clamp(12px, 1.1vw, 15px);
+        line-height: 1.45;
+        margin-top: 20px;
+      }
+      @media (max-width: 700px) {
+        .trend-graphs,
+        .distribution-graph {
+          grid-template-columns: 1fr;
+          gap: 20px;
+        }
+        .measure {
+          grid-template-columns: minmax(95px, 35%) 1fr auto;
+          gap: 6px;
+        }
+        .track {
+          height: 11px;
+        }
+        .plot-note {
+          margin-top: 10px;
+        }
+        .safety-plot {
+          border-left: 0;
+          border-top: 1px solid rgba(32, 32, 33, 0.25);
+          padding: 16px 0 0;
+        }
+        .victim-share {
+          gap: 14px;
+          flex-wrap: wrap;
+        }
+        .victim-share small {
+          flex-basis: 100%;
+        }
+      }
+    </style>
+    <style id="direction-bridge">
+      .direction-graphic {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 22px;
+      }
+      .direction-top {
+        display: grid;
+        grid-template-columns: 1.05fr 0.95fr;
+        gap: 6%;
+        align-items: center;
+      }
+      .direction-label {
+        font-size: clamp(13px, 1.35vw, 18px);
+        font-weight: 800;
+        margin-bottom: 9px;
+      }
+      .direction-period {
+        font-size: 11px;
+        color: #625f59;
+        margin-bottom: 12px;
+      }
+      .direction-bar {
+        display: grid;
+        grid-template-columns: 46px 1fr auto;
+        gap: 10px;
+        align-items: center;
+        margin: 10px 0;
+        font-size: clamp(11px, 1vw, 14px);
+      }
+      .direction-bar i {
+        height: 13px;
+        background: rgba(32, 32, 33, 0.12);
+        display: block;
+      }
+      .direction-bar i b {
+        height: 100%;
+        display: block;
+        background: #f3654b;
+      }
+      .direction-bar:first-of-type i b {
+        background: #8a8279;
+      }
+      .direction-bar strong {
+        font-size: clamp(12px, 1.1vw, 15px);
+        white-space: nowrap;
+      }
+      .decline {
+        font-size: clamp(19px, 2.2vw, 30px);
+        font-weight: 800;
+        color: #cb4937;
+        margin-top: 9px;
+      }
+      .conflict-record {
+        border-left: 1px solid rgba(32, 32, 33, 0.25);
+        padding-left: 8%;
+      }
+      .conflict-record > strong {
+        font-size: clamp(26px, 3.5vw, 48px);
+        line-height: 1.1;
+        display: block;
+        letter-spacing: -0.04em;
+      }
+      .conflict-record p {
+        font-size: clamp(15px, 1.55vw, 21px);
+        line-height: 1.4;
+        margin: 7px 0 10px;
+        font-weight: 700;
+      }
+      .conflict-record a {
+        font-size: 11px;
+        color: inherit;
+        text-underline-offset: 2px;
+      }
+      .region-strip {
+        border-top: 1px solid rgba(32, 32, 33, 0.25);
+        padding-top: 14px;
+      }
+      .stacked-region {
+        height: 14px;
+        display: flex;
+        width: 100%;
+        background: #dfdcd5;
+      }
+      .stacked-region i:nth-child(1) {
+        background: #f3654b;
+      }
+      .stacked-region i:nth-child(2) {
+        background: #d99a19;
+      }
+      .stacked-region i:nth-child(3) {
+        background: #8a8279;
+      }
+      .region-labels {
+        display: grid;
+        grid-template-columns: 65fr 24fr 11fr;
+        gap: 8px;
+        margin-top: 7px;
+        font-size: clamp(9px, 0.85vw, 12px);
+        line-height: 1.25;
+      }
+      .region-labels span:nth-child(2) {
+        text-align: center;
+      }
+      .region-labels span:last-child {
+        text-align: right;
+      }
+      .region-labels b {
+        white-space: nowrap;
+      }
+      .direction-conclusion {
+        border-top: 2px solid #252321;
+        padding-top: 13px;
+        font-size: clamp(18px, 2.2vw, 30px);
+        font-weight: 800;
+        line-height: 1.25;
+        max-width: 56em;
+      }
+      .slide.blue .direction-conclusion,
+      .slide.teal .direction-conclusion {
+        border-color: var(--ink);
+      }
+      @media (max-width: 700px) {
+        .direction-graphic {
+          gap: 12px;
+        }
+        .direction-top {
+          grid-template-columns: 1fr;
+          gap: 12px;
+        }
+        .conflict-record {
+          border-left: 0;
+          border-top: 1px solid rgba(32, 32, 33, 0.25);
+          padding: 10px 0 0;
+        }
+        .region-labels {
+          grid-template-columns: 1fr 1fr 1fr;
+        }
+        .region-labels span:nth-child(2) {
+          text-align: left;
+        }
+        .direction-conclusion {
+          font-size: 15px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <div class="brand">SDG 16 / 17</div>
+        <div class="top-right">
+          <span id="sectionName">INTRO</span>
+          <div class="progress"><i id="progress"></i></div>
+          <span id="topCount">01 / 48</span>
+        </div>
+      </header>
+      <main class="stage" id="stage"></main>
+      <nav class="controls" aria-label="슬라이드 이동">
+        <button id="prev" aria-label="이전 슬라이드">←</button
+        ><span class="counter" id="counter">1 / 48</span
+        ><button id="next" aria-label="다음 슬라이드">→</button
+        ><span class="hint">← → 키로 이동 / O 전체 보기</span>
+      </nav>
+    </div>
+    <div class="overview" id="overview">
+      <button class="close" id="closeOverview">×</button>
+      <div class="grid" id="grid"></div>
+    </div>
+    <script>
+      const slides = [
+        {
+          section: "INTRO",
+          kind: "cover",
+          title: "제목 텍스트",
+          sub: "소제목 텍스트",
+          note: "",
+          mark: "SDG",
+        },
+        {
+          section: "16.1",
+          kind: "section",
+          title: "폭력과 분쟁 사망을\n줄이기 위한 노력",
+          sub: "SDG 16.1 - 모든 형태의 폭력과 폭력 관련 사망 감소",
+          note: "",
+          mark: "16.1",
+        },
+        {
+          section: "16.1",
+          title: "목차",
+          points: [
+            "1. SDG 16.1 소개 및 현황",
+            "2. 국제 분쟁으로 인한 민간인 사망 현황",
+            "3. 민간인 구제를 위한 방법",
+          ],
+        },
+        {
+          section: "16.1",
+          title: "SDG 16.1 소개",
+          copy: "SDG 16.1은 ‘모든 형태의 폭력과 그로 인한 사망을 전 세계적으로 크게 줄이는 것’을 목표로 한다. 전쟁이나 테러뿐 아니라 살인, 신체적, 심리적, 성적 폭력 등 일상에서 발생하는 폭력도 포함한다.",
+          image: "sdg161-intro-photo.jpg",
+          imageAlt:
+            "중앙아프리카공화국 방기 시장에서 유엔 경찰과 지역 경찰, 주민들이 대화하는 모습",
+          imageSource:
+            "https://minusca.unmissions.org/fr/actualites/quand-les-communautes-contribuent-leur-propre-securite",
+        },
+        {
+          section: "16.1",
+          title: "SDG 16.1의 지표",
+          sub: "사망자 수 감소를 넘어, 폭력을 덜 겪고 일상에서 안전하다고 느끼는 사회를 지향한다.",
+          points: [
+            "고의적 살인 피해자 수",
+            "분쟁 관련 사망자 수",
+            "최근 1년간 신체적, 심리적, 성적 폭력을 겪은 인구 비율",
+            "밤에 혼자 거리를 걸을 때 안전하다고 느끼는 인구 비율",
+          ],
+        },
+        {
+          section: "16.1",
+          sub: "감소세는 보이지만, 목표선에는 못 미친다",
+          title: "살인율과 분쟁 관련 민간인 사망의 최근 추세",
+          graph: "trends",
+          note: "2030 예상은 2015년 대비 25% 감소 추세를 적용한 값. 목표선은 50% 감소 기준.",
+        },
+        {
+          section: "16.1",
+          sub: "피해는 특정 지역에 집중되고, 안전 체감은 정체",
+          title: "2025 분쟁 사망자의 지역별 분포 / 야간 안전 인식",
+          graph: "distribution",
+          note: "유엔 집계 및 발표 자료 기준. 아동과 여성 비율은 서로 겹칠 수 있음.",
+        },
+        {
+          section: "16.1",
+          title: "사망자는 감소했지만, 분쟁은 역대 최고 수준",
+          graph: "direction",
+        },
+        {
+          section: "16.1",
+          kind: "section",
+          title: "분쟁으로 인한\n민간인 사망자 통계",
+          sub: "기록된 사망의 규모와 피해 양상을 살펴본다",
+          mark: "16.1",
+        },
+        {
+          section: "16.1",
+          title: "분쟁 관련 사망자 추이, 2015–2025",
+          graphImage: "images/documented-conflict-deaths-2015-2025.png",
+          imageAlt:
+            "2015년부터 2025년까지 기록된 분쟁 관련 사망자 총계와 전년 대비 증감률을 나타낸 그래프",
+          fullMedia: true,
+        },
+        {
+          section: "16.1",
+          title: "감소했지만, 여전히 높은 사망 규모",
+          sub: "유엔 집계 기준 무력분쟁 중 민간인 사망자. 2025년은 2015년보다 많고 전년보다 23% 줄었다",
+          graph: "conflict-summary",
+        },
+        {
+          section: "16.1",
+          title: "2025년 민간인 사망자 구성",
+          graphImage: "images/civilian-deaths-age-sex-2025.png",
+          imageAlt:
+            "2025년 기록된 민간인 분쟁 사망자를 연령과 성별로 나눈 도넛 그래프",
+          fullMedia: true,
+        },
+        {
+          section: "16.1",
+          title: "분쟁별 민간인 사망 비율",
+          graphImage: "images/civilian-death-rates-conflicts.png",
+          imageAlt:
+            "르완다, 마리우폴, 스레브레니차, 가자 등 주요 분쟁에서 추정된 민간인 사망 비율 비교 그래프",
+          fullMedia: true,
+        },
+        {
+          section: "16.1",
+          kind: "minimal",
+          title: "해석",
+          sub: "피해 실태와 한계 → 국제 분쟁 민간인 구제",
+        },
+        {
+          section: "16.1",
+          title: "국제인도법",
+          sub: "무력충돌 중 피해를 줄이고 사람과 시설을 보호하는 규칙",
+          points: [
+            "구별의 원칙: 민간인과 전투원, 민간시설과 군사목표를 구별해야 한다.",
+            "비례성의 원칙: 예상되는 민간인 피해가 군사적 이익에 비해 과도한 공격은 금지된다.",
+            "공격 시 주의 의무: 민간인 피해를 줄이기 위해 가능한 예방 조치를 취해야 한다.",
+            "인도적 대우: 전투에서 벗어난 사람, 포로, 부상자와 민간인을 고문·학대하거나 함부로 공격해서는 안 된다.",
+          ],
+          note: "1949 제네바협약, 추가의정서, 국제관습법",
+        },
+        {
+          section: "16.1",
+          title: "그외의 국제법 관리 주체들:",
+          points: [
+            "각국 정부와 군: 법 반영과 교육, 감독, 수사, 처벌",
+            "국제적십자위원회(ICRC) : 피해자 보호와 지원, 당사자와의 비공개 대화 -> 규칙 준수 촉구",
+            "국제인도주의 사실조사위원회(IHFFC): 독립적 조사 기구",
+            "국제형사재판소(ICC): 국제범죄 수사와 재판 권한이 있음",
+            "UN 안전보장이사회 : 제재, 무기금수, 평화유지활동",
+          ],
+          image: "images/ihl-training-officials.webp",
+          imageAlt:
+            "방글라데시 콕스바자르에서 국제인도법 교육에 참여한 정부 관계자들",
+          imageSource:
+            "https://www.icrc.org/en/photo-gallery/icrc-bangladesh-2025-images",
+          imageCaption:
+            "콕스바자르 국제인도법 설명회에 참석한 정부 관계자들 (ICRC)",
+          imageClass: "ihl-photo",
+          mark: "PROTECT",
+        },
+        {
+          section: "16.8",
+          kind: "section",
+          title: "국제기구에서 개발도상국의\n대표성과 참여",
+          sub: "SDG 16.8.1 - 회원 비율과 공식 투표권 비율",
+          note: "SDG 16.8",
+          mark: "16.8",
+        },
+        {
+          section: "16.8",
+          title: "목차",
+          points: [
+            "1. 16.8.1 지표 소개",
+            "2. 회원 및 투표권 비율 현황과 대표 사례 선정",
+            "3. IMF, UN 총회, WTO 사례",
+            "4. 대표성 강화를 위한 실제 개혁",
+            "5. 결론 및 질문",
+          ],
+        },
+        {
+          section: "16.8",
+          title: "개발도상국의 회원 및 투표권 비율",
+          sub: "SDG 16.8.1이 국제기구별로 측정하는 두 지표",
+          points: [
+            "국제기구 회원 중 개발도상국 비율",
+            "전체 공식 투표권 중 개발도상국 비율",
+            "11개 국제기구별 산출, 단위는 %",
+          ],
+          note: "통계작성기관: UN DESA",
+        },
+        {
+          section: "16.8",
+          title: "국제기구별 회원 및 투표권 비율",
+          sub: "개발도상국 비율, 2000–2025",
+          graphImage: "images/sdg168-members-voting-rights.png",
+          imageAlt:
+            "국제기구별 개발도상국 회원 비율과 투표권 비율의 연도별 그래프",
+          fullMedia: true,
+          note: "출처: 지표누리 G0133, UN DESA",
+        },
+        {
+          section: "16.8",
+          title: "대표 사례들",
+          sub: "투표권 비율의 의미가 다른 세 기구",
+          points: [
+            "IMF : 쿼터 기반 가중투표",
+            "UN 총회 : 1국 1표",
+            "WTO : 합의 중심 & 표결 시 1국 1표",
+          ],
+        },
+        {
+          section: "16.8",
+          title: "IMF 쿼터 - 투표권 개혁",
+          sub: "쿼터 기반 가중투표에서 개발도상국 몫을 늘린 변화",
+          points: [
+            "2008년 기본표를 3배로 확대",
+            "2010년 쿼터 개혁으로 쿼터 지분 6% 이상을 신흥/개도국에 재배분",
+            "개혁 후 신흥/개발도상국의 전체 투표 지분 5.3%p 상승",
+          ],
+          image: "images/16.8-imf-executive-board.jpeg",
+          imageAlt: "IMF 집행이사회 회의실에서 이사들이 회의하는 모습",
+          imageSource:
+            "https://mediacenter.imf.org/b-roll/imf-board/s/bf4002de-7cfc-49ec-96ae-0de7e4ad364a",
+          imageCaption: "IMF 집행이사회 회의 (IMF Media Center)",
+          imageClass: "institution-photo",
+          note: "자료: IMF 2010 쿼터·거버넌스 개혁",
+        },
+        {
+          section: "16.8",
+          title: "UN 안전보장이사회",
+          sub: "2024년 미래협약에 담긴 대표성 개선 과제",
+          points: [
+            '"안보리를 더 대표적이고 포용적으로 개혁"',
+            "아프리카의 역사적 과소대표 시정을 우선 과제로 제시함",
+            "개발도상국과 중소국의 대표성 확대 추구",
+          ],
+          image: "images/16.8-un-general-assembly.jpg",
+          imageAlt: "유엔 총회장에서 각국 대표들이 본회의에 참석한 모습",
+          imageSource: "https://news.un.org/en/story/2018/09/1020402",
+          imageCaption: "제73차 유엔 총회 본회의 (UN News)",
+          imageClass: "institution-photo",
+          note: "자료: 미래협약 Action 39, 2024",
+        },
+        {
+          section: "16.8",
+          title: "WTO의 작업 절차 개선",
+          sub: "소규모 대표단의 실질적 참여를 넓히는 대응",
+          points: [
+            "개발도상국 : 자원이 적은 대표단의 참여 확대를 요구",
+            "상품무역이사회와 산하 기구의 작업 절차를 개선 ->",
+            "2024년까지 제네바에서 127건의 개선 조치 채택",
+          ],
+          image: "images/16.8-wto-general-council.jpg",
+          imageAlt: "제네바 WTO 일반이사회 회의에 각국 대표단이 참석한 모습",
+          imageSource:
+            "https://www.ch.tzembassy.go.tz/thematic-areas/tanzania-and-the-world-trade-organization-wto",
+          imageCaption: "WTO 일반이사회 회의 (Christian Groseth)",
+          imageClass: "institution-photo",
+          note: "자료: WTO, 2024",
+        },
+        {
+          section: "16.8",
+          title: "기구마다 다른 개혁 방식",
+          sub: "공식 권한과 실제 참여의 장벽을 각각 다룸",
+          points: [
+            "IMF - 투표권 배분 조정",
+            "UN  - 안보리 구성과 대표성 개선 논의",
+            "WTO - 협상 절차와 대표단 참여 여건 개선",
+          ],
+        },
+        {
+          section: "16.8",
+          title:
+            "16.8의 participation 이해 - 대표성과 실질적 영향력을 구분하기",
+          sub: "3단계로 나눌 수 있는 해석",
+          table: [
+            ["참여 단계", "내용", "16.8.1의 측정 범위"],
+            [
+              "Membership",
+              "의사결정 자리에 포함되어 있는가",
+              "개발도상국 회원 비율을 직접 측정",
+            ],
+            [
+              "Formal Decision Rights",
+              "투표권, 의석, 거부권 등",
+              "투표권 비율만 측정",
+            ],
+            [
+              "Effective Participation",
+              "의제 설정, 협상, 정보 접근, 대표단 역량",
+              "직접 측정하기 어려움",
+            ],
+          ],
+        },
+        {
+          section: "16.8",
+          title: "SDG 16.8과 국제 의사결정 참여",
+          sub: "국제 의사결정에서 개발도상국의 참여를 어떻게 볼 것인가",
+          points: [
+            "UN DESA 「Information for integrated Decision-Making and Participation」: 모든 국가, 특히 개발도상국의 완전하고 효과적인 국제 의사결정 참여 강조",
+            "16.8.1은 국제기구별 회원 구성과 투표권을 보는 구조적 지표. 작은 수치 변화만으로 참여 확대의 성패를 단정하기 어려움",
+            "2027 GSDR 아시아·태평양 협의: 거버넌스, 책임성, 제도적 메커니즘 강화",
+          ],
+          note: "2027 GSDR 최종 보고서 발간 예정: 2027년 9월",
+          sources: [
+            [
+              "UN DESA, Information for integrated Decision-Making and Participation",
+              "https://sdgs.un.org/topics/information-integrated-decision-making-and-participation",
+            ],
+            [
+              "UN Statistics Division, SDG indicator metadata 16.8.1",
+              "https://unstats.un.org/sdgs/metadata/files/Metadata-16-08-01.pdf",
+            ],
+            [
+              "UN DESA, Regional Consultation Workshop for Asia and the Pacific Synthesis Report Final",
+              "https://sdgs.un.org/GSDR2027/Consultations/Asia-Pacific",
+            ],
+          ],
+        },
+        {
+          section: "17.15.1",
+          kind: "section",
+          title: "개발협력에서\n국가 데이터의 중요성",
+          sub: "SDG 17.15.1 - 성과를 누구의 기준과 데이터로 확인할까?",
+          note: "SDG 17.15.1",
+          mark: "DATA",
+        },
+        {
+          section: "17.15.1",
+          title: "SDG 17.15와 17.15.1",
+          points: [
+            "17.15: 각국의 정책과 우선순위를 존중하는 개발협력",
+            "17.15.1: 개발 파트너가 협력국의 국가 성과체계를 얼마나 활용하는지 측정",
+            "국가 계획, 성과지표, 통계자료 활용을 각각 살펴봄",
+            "사업 목표뿐 아니라 성과를 확인하는 방식도 평가",
+          ],
+          mark: "17.15.1",
+        },
+        {
+          section: "17.15.1",
+          title: "국가 성과체계 활용 현황",
+          sub: "국가 계획 활용 91%에 비해, 국가 성과지표와 통계자료 활용은 절반 수준",
+          graphImage: "images/sdg17151-overview-use-rates.svg",
+          imageAlt:
+            "국가 계획 활용 91%, 국가 성과지표 활용 54%, 국가 통계자료 활용 46%, 종합 활용도 64%를 비교한 가로 막대그래프",
+          fullMedia: true,
+          sources: [
+            [
+              "OECD & UNDP, Making Development Co-operation More Effective Progress Report 2026, Using and strengthening country systems",
+              "https://www.oecd.org/en/publications/making-development-co-operation-more-effective-progress-report-2026_3a427ab2-en/full-report/using-and-strengthening-country-systems_f576468d.html",
+            ],
+          ],
+          mark: "64%",
+        },
+        {
+          section: "17.15.1",
+          title: "개발 파트너 유형별 국가 성과체계 활용",
+          sub: "전체 평균은 2018년과 2026년 모두 64%. 다자개발 파트너는 71%에서 66%로 하락, 양자 파트너는 56%에서 60%로 상승",
+          graphImage: "images/sdg17151-figure-3-2-partner-type.png",
+          imageAlt:
+            "OECD·UNDP 보고서 Figure 3.2. 개발 파트너 유형별 국가 성과체계 활용률을 2018년과 2026년으로 비교한 막대그래프",
+          fullMedia: true,
+          sources: [
+            [
+              "OECD & UNDP, Making Development Co-operation More Effective Progress Report 2026, Figure 3.2",
+              "https://www.oecd.org/en/publications/making-development-co-operation-more-effective-progress-report-2026_3a427ab2-en/full-report.html",
+            ],
+          ],
+        },
+        {
+          section: "17.15.1",
+          title: "성과체계 활용은 정체, 국가 데이터 활용은 낮고 감소",
+          sub: "2018년과 2026년 사이 국가 성과체계 활용은 정체했고, 국가 통계 시스템 자료의 활용은 더 낮아졌다",
+          graphImage: "images/sdg17151-figure-3-3-trend.png",
+          imageAlt:
+            "OECD·UNDP 보고서 Figure 3.3. 2018년과 2026년 국가 성과체계 활용, 성과지표 및 국가 통계 시스템 데이터 사용을 비교한 그래프",
+          fullMedia: true,
+          sources: [
+            [
+              "OECD & UNDP, Making Development Co-operation More Effective Progress Report 2026, Figure 3.3",
+              "https://www.oecd.org/en/publications/making-development-co-operation-more-effective-progress-report-2026_3a427ab2-en/full-report.html",
+            ],
+          ],
+        },
+        {
+          section: "17.15.1",
+          title: "목표 연계에 비해 성과지표·정부 자료 활용은 낮다",
+          sub: "파트너 유형별 국가 목표 정렬은 89–97%, 국가 성과지표 활용은 49–78%, 정부 자료 활용은 40–69%",
+          graphImage: "images/sdg17151-figure-3-4-by-partner.png",
+          imageAlt:
+            "OECD·UNDP 보고서 Figure 3.4. DAC 회원국, 다자개발은행, UN 기구, 기타 파트너별 국가 목표, 국가 성과지표, 정부 자료 활용률을 비교한 그래프",
+          fullMedia: true,
+          sources: [
+            [
+              "OECD & UNDP, Making Development Co-operation More Effective Progress Report 2026, Figure 3.4",
+              "https://www.oecd.org/en/publications/making-development-co-operation-more-effective-progress-report-2026_3a427ab2-en/full-report.html",
+            ],
+          ],
+        },
+        {
+          section: "17.15.1",
+          title: "국가 데이터를 사용하지 않는 이유",
+          points: [
+            "자료를 구하기 어렵거나 품질이 낮거나 최신 자료가 아닐 수 있음",
+            "소규모 사업이나 사업 자체에서 자료를 만드는 경우 국가 자료가 맞지 않을 수 있음",
+            "기관별 보고 기준이나 국가 간 비교를 위해 자체 자료를 사용하기도 함",
+            "국가 통계 시스템 미사용 사업 중 35%는 협력국 내 CSO, 학계, 민간부문 자료를 활용",
+          ],
+          mark: "35%",
+        },
+        {
+          section: "17.15.1",
+          title: "신뢰할 수 있는 국가 데이터가 중요한 이유",
+          cards: [
+            ["같은 근거", "정부와 개발 파트너가 성과를 함께 논의"],
+            ["효과 점검", "지원 방식의 효과를 판단하고 다음 계획 수정"],
+            ["포용성", "누가 지원에서 배제됐는지 확인"],
+          ],
+          mark: "TRUST",
+        },
+        {
+          section: "17.15.1",
+          title: "데이터 활용과 품질은 함께 개선해야 한다",
+          points: [
+            "국가 자료가 불완전하거나 신뢰하기 어려우면 자체 자료를 선택할 수 있음",
+            "자체 자료 사용이 반복되면 국가 통계 시스템의 활용과 개선이 더뎌질 수 있음",
+            "국가 평균만으로는 지역별 차이와 취약집단의 상황이 가려질 수 있음",
+            "세분화된 자료는 지원이 닿지 않은 사람과 지역을 확인하는 데 필요",
+          ],
+          mark: "QUALITY",
+        },
+        {
+          section: "17.15.1",
+          title: "케냐: 국가 성과체계 활용도 상승",
+          sub: "개발 파트너의 국가 성과체계 활용도",
+          stat: "63% → 75%",
+          label: "2018년 → 2026년",
+          points: [
+            "케냐 국가통계청 주도로 제2차 국가통계발전전략 마련",
+            "개발 파트너가 참여하는 포용적 절차로 전략 수립",
+            "데이터와 통계 생산자의 계획을 국가 우선 분야에 맞추도록 함",
+          ],
+          mark: "KENYA",
+        },
+        {
+          section: "17.15.1",
+          title: "케냐의 통계 역량 강화: Data for Now",
+          points: [
+            "국가통계청이 새 데이터 출처, 기술, 방법을 활용하도록 지원",
+            "지속가능발전 자료를 더 적시에, 세분화해 생산하고 배포",
+            "우선 과제: 이용자 참여, 부패 통계, 재난 통계, 도시화, 시민 자료 활용",
+            "2025년 자료 생산자와 이용자의 협력을 높이는 전략 초안 마련",
+          ],
+          mark: "NOW",
+        },
+        {
+          section: "17.15.1",
+          title: "통계 시스템 개선에 필요한 기반",
+          points: [
+            "국가 통계 시스템의 품질 개선에는 장기적인 운영 재원이 필요",
+            "일회성 프로젝트 지원만으로 행정자료 시스템을 충분히 개선하기 어려움",
+            "국가통계청의 핵심 운영 재원 지원이 중요",
+            "감비아는 생성형 AI를 활용해 데이터 품질과 공식 통계를 개선하려는 중",
+          ],
+          mark: "FUND",
+        },
+        {
+          section: "17.16",
+          kind: "section",
+          title: "효과적인 개발협력",
+          sub: "SDG 17.16 - 여러 주체의 협력으로 지속가능발전목표 달성",
+          note: "",
+          mark: "17.16",
+        },
+        {
+          section: "17.16",
+          title: "SDG 17.16 글로벌 파트너십",
+          points: [
+            "정부, 국제기구, 기업, 시민사회가 SDGs 달성을 위해 협력",
+            "자금과 기술, 전문성을 공유해 개발도상국의 이행을 지원",
+          ],
+          mark: "PARTNERS",
+        },
+        {
+          section: "17.16",
+          title: "SDG 17.16과 지표 17.16.1",
+          points: [
+            "17.16은 여러 주체의 협력으로 SDGs를 달성하는 목표",
+            "17.16.1은 다자 이해관계자 개발협력 효과성 모니터링 체계의 진전을 보고한 국가 비율",
+            "수원국과 개발협력 제공국의 평가를 함께 살펴봄",
+          ],
+          mark: "17.16.1",
+        },
+        {
+          section: "17.16",
+          title: "개발협력 효과성 평가",
+          sub: "진전은 수원국 25%, 제공국 33%. 악화는 각각 68%, 54%",
+          graphImage: "images/sdg17161-source-figure1.png",
+          imageAlt:
+            "2023년부터 2026년까지 다자 이해관계자 개발협력 효과성 평가. 수원국은 진전 25%, 변화 없음 7%, 악화 68%, 제공국은 진전 33%, 변화 없음 13%, 악화 54%",
+          fullMedia: true,
+          sources: [
+            [
+              "OECD & UNDP, Making Development Co-operation More Effective Progress Report 2026, Chart 1",
+              "https://www.oecd.org/en/publications/making-development-co-operation-more-effective-progress-report-2026_3a427ab2-en/full-report/overview-of-the-2023-26-global-partnership-monitoring-round_53d14127.html",
+            ],
+          ],
+        },
+        {
+          section: "17.16",
+          title: "국가예산에 기록된 개발협력 자금",
+          sub: "전체 협력국 평균 66%에서 41%로 하락, 2014년에서 2026년",
+          graphImage: "images/sdg17161-source-figure2.png",
+          imageAlt:
+            "개발협력 자금 중 국가예산에 기록된 비율. 전체 협력국은 2014년 66%, 2016년 66%, 2018년 61%, 2026년 41%로 감소. 최빈개도국, 취약국, 저소득국, 중하위소득국별 추이도 비교",
+          fullMedia: true,
+          sources: [
+            [
+              "OECD & UNDP, Making Development Co-operation More Effective Progress Report 2026, Figure 4.3",
+              "https://www.oecd.org/en/publications/making-development-co-operation-more-effective-progress-report-2026_3a427ab2-en/full-report/using-and-strengthening-country-systems_f576468d.html",
+            ],
+          ],
+        },
+        {
+          section: "17.16",
+          title: "개발협력 지원계획의 예측 가능성",
+          sub: "2026년 제공자 중 67%는 1년, 48%는 2년, 41%는 3년 뒤까지 지출계획을 제시",
+          graphImage: "images/sdg17161-source-figure3.png",
+          imageAlt:
+            "개발협력 제공자가 1년, 2년, 3년 뒤까지 지출계획을 제시한 비율. 2026년 각각 67%, 48%, 41%이며, 2014년부터 2026년까지 추이 포함",
+          fullMedia: true,
+          sources: [
+            [
+              "OECD & UNDP, Making Development Co-operation More Effective Progress Report 2026, Figure 4.1",
+              "https://www.oecd.org/en/publications/making-development-co-operation-more-effective-progress-report-2026_3a427ab2-en/full-report/making-development-co-operation-funding-predictable-and-gender-responsive_788b87ee.html",
+            ],
+          ],
+        },
+        {
+          section: "17.16",
+          title: "상호책임 체계의 다섯 요소",
+          sub: "공동 평가 4개국, 다양한 이해관계자 참여 3개국, 결과 공개 2개국. 5개 요소 중 4개 이상을 갖춘 국가는 44개국 중 3개국",
+          graphImage: "images/sdg17161-source-figure4.png",
+          imageAlt:
+            "44개 협력국의 상호책임 체계 구성요소. 정책 체계 28개국, 참여자별 목표 12개국, 정기 공동평가 4개국, 정부 밖 이해관계자 참여 3개국, 결과 공개 2개국. 다섯 요소 중 네 개 이상을 갖춘 국가는 3개국",
+          fullMedia: true,
+          sources: [
+            [
+              "OECD & UNDP, Making Development Co-operation More Effective Progress Report 2026, Figure 5.1",
+              "https://www.oecd.org/en/publications/making-development-co-operation-more-effective-progress-report-2026_3a427ab2-en/full-report/holding-each-other-to-account-and-promoting-transparency_1a638c14.html",
+            ],
+          ],
+        },
+        {
+          section: "17.16",
+          title: "개선 방법 ① 지원계획과 국가계획 연계",
+          points: [
+            "제공자는 지원 규모와 시기, 분야를 미리 공유",
+            "수원국은 외부 지원을 국가예산과 발전계획에 반영",
+            "양측이 국가 우선순위에 맞춰 사업을 함께 설계",
+          ],
+          mark: "ALIGN",
+        },
+        {
+          section: "17.16",
+          title: "개선 방법 ② 예측 가능한 중장기 지원",
+          points: [
+            "가능한 범위에서 2~3년 뒤까지 지원 규모와 시기를 제시",
+            "계획이 바뀌면 수원국에 미리 알림",
+            "교육, 보건, 인프라 등 여러 해가 필요한 사업을 안정적으로 계획",
+          ],
+          mark: "PLAN",
+        },
+        {
+          section: "17.16",
+          title: "개선 방법 ③ 공동 평가와 결과 공개",
+          points: [
+            "사업 시작 전 공동 목표와 평가 기준 설정",
+            "정부, 개발 파트너, 시민사회가 함께 성과를 점검",
+            "평가 결과를 공개해 다음 사업에 반영",
+          ],
+          mark: "REVIEW",
+        },
+      ];
+      const stage = document.querySelector("#stage");
+      function esc(s = "") {
+        return String(s).replace(
+          /[&<>"']/g,
+          (c) =>
+            ({
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              '"': "&quot;",
+              "'": "&#39;",
+            })[c],
+        );
+      }
+      function list(items = []) {
+        return `<ul class="points">${items.map((x) => `<li>${x}</li>`).join("")}</ul>`;
+      }
+      function directionGraph() {
+        return `<div class="direction-graphic">
+          <div class="direction-top">
+            <section class="death-compare">
+              <div class="direction-label">분쟁 관련 민간인 사망자</div>
+              <div class="direction-period">2024년에서 2025년</div>
+              <div class="direction-bar"><span>2024</span><i><b style="width:100%"></b></i><strong>48,011명</strong></div>
+              <div class="direction-bar"><span>2025</span><i><b style="width:77.4%"></b></i><strong>37,163명</strong></div>
+              <div class="decline">전년 대비 23% 감소</div>
+            </section>
+            <section class="conflict-record">
+              <div class="direction-label">세계의 무력분쟁</div>
+              <strong>최고 수준</strong>
+              <p>제2차 세계대전 이후 가장 많은 무력분쟁</p>
+              <a href="https://www.un.org/sg/en/content/highlight/2025-06-25.html" target="_blank" rel="noopener">유엔 사무총장 발언, 2025년 6월 25일</a>
+            </section>
+          </div>
+          <section class="region-strip">
+            <div class="direction-label">민간인 사망자의 89%가 두 지역에 집중</div>
+            <div class="stacked-region"><i style="width:65%"></i><i style="width:24%"></i><i style="width:11%"></i></div>
+            <div class="region-labels"><span>북아프리카와 서아시아 <b>65%</b></span><span>사하라 이남 아프리카 <b>24%</b></span><span>기타 <b>11%</b></span></div>
+          </section>
+        </div>`;
+      }
+      function trendGraph() {
+        return `<div class="trend-graphs">
+          <section class="plot">
+            <h3>전 세계 살인율</h3>
+            <p class="plot-caption">인구 10만 명당</p>
+            <div class="bar-list">
+              <div class="measure"><span>2015 실제</span><div class="track"><i class="fill actual" style="width:91%"></i></div><b>5.9</b></div>
+              <div class="measure"><span>2024 실제</span><div class="track"><i class="fill actual" style="width:78%"></i></div><b>5.1</b></div>
+              <div class="measure"><span>2030 예상</span><div class="track"><i class="fill forecast" style="width:68%"></i></div><b>약 4.4</b></div>
+              <div class="measure"><span>2030 목표선</span><div class="track target-track"><i class="fill target" style="width:46%"></i></div><b>약 3.0</b></div>
+            </div>
+            <p class="plot-note">현재 추세라면 2015년 대비 약 25% 감소 - 목표 기준인 50% 감축에는 못 미침</p>
+          </section>
+          <section class="plot">
+            <h3>분쟁 관련 민간인 사망</h3>
+            <p class="plot-caption">확인된 사망자 수</p>
+            <div class="bar-list">
+              <div class="measure"><span>2024</span><div class="track"><i class="fill conflict-old" style="width:100%"></i></div><b>48,011명</b></div>
+              <div class="measure"><span>2025</span><div class="track"><i class="fill conflict-new" style="width:77.4%"></i></div><b>37,163명</b></div>
+            </div>
+            <div class="change"><strong>-23%</strong><span>3년 연속 증가세가 꺾임</span></div>
+          </section>
+        </div>`;
+      }
+      function distributionGraph() {
+        return `<div class="distribution-graph">
+          <section class="region-plot">
+            <h3>2025년 민간인 사망자 지역 비중</h3>
+            <div class="bar-list">
+              <div class="measure"><span>서아시아 및 북아프리카</span><div class="track"><i class="fill actual" style="width:65%"></i></div><b>65%</b></div>
+              <div class="measure"><span>사하라 이남 아프리카</span><div class="track"><i class="fill forecast" style="width:24%"></i></div><b>24%</b></div>
+              <div class="measure"><span>기타 지역</span><div class="track"><i class="fill other" style="width:11%"></i></div><b>11%</b></div>
+            </div>
+            <div class="victim-share"><div><b>약 1/5</b><span>아동</span></div><div><b>약 1/4</b><span>여성</span></div><small>기록된 민간인 사망자 중 비율</small></div>
+          </section>
+          <section class="safety-plot">
+            <p class="plot-caption">밤에 혼자 걸을 때 안전하다고 느끼는 사람</p>
+            <strong class="safety-number">66%</strong>
+            <div class="steady"><span>2017</span><i></i><span>2025</span></div>
+            <p class="plot-note">2017년부터 2025년까지 큰 변화 없이 유지</p>
+            <p class="gender-note">모든 지역에서 여성의 안전 체감은 남성보다 낮게 나타남</p>
+          </section>
+        </div>`;
+      }
+      function conflictSummaryGraph() {
+        return `<div class="conflict-summary">
+          <div class="summary-years">
+            <div class="summary-year"><span>2024년</span><strong>48,011<small>명</small></strong></div>
+            <div class="summary-change">−23%<span>전년 대비</span></div>
+            <div class="summary-year current"><span>2025년</span><strong>37,163<small>명</small></strong></div>
+          </div>
+          <div class="summary-detail">
+            <section>
+              <h3>기록된 사망자 중</h3>
+              <div class="summary-victims"><div><b>약 1/5</b><span>아동</span></div><div><b>약 1/4</b><span>여성</span></div></div>
+            </section>
+            <section>
+              <h3>지역별 기록 비중</h3>
+              <div class="summary-regions">
+                <div class="summary-region"><span>북아프리카와 서아시아</span><div class="summary-track"><i style="width:65%"></i></div><b>65%</b></div>
+                <div class="summary-region"><span>사하라 이남 아프리카</span><div class="summary-track"><i style="width:24%"></i></div><b>24%</b></div>
+              </div>
+            </section>
+          </div>
+        </div>`;
+      }
+      function interpretationGraph() {
+        return `<div class="interpretation-slide">
+          <div class="interpretation-keywords">
+            <div class="keyword-row"><b>추세</b><span>연간 감소, 장기 흐름</span></div>
+            <div class="keyword-row"><b>피해 집단</b><span>아동과 여성</span></div>
+            <div class="keyword-row"><b>피해 요인</b><span>민간인 밀집 지역 전투, 폭발성 무기</span></div>
+            <div class="keyword-row"><b>기록 한계</b><span>미기록 사망, 민간인 식별 불가</span></div>
+          </div>
+          <div class="interpretation-stat"><strong>65%</strong><span>북아프리카와 서아시아에서 기록된 분쟁 관련 사망자 비중</span></div>
+        </div>`;
+      }
+      function viz(s) {
+        if (s.graph === "direction") return directionGraph();
+        if (s.graph === "trends") return trendGraph();
+        if (s.graph === "distribution") return distributionGraph();
+        if (s.graph === "conflict-summary") return conflictSummaryGraph();
+        if (s.graph === "interpretation") return interpretationGraph();
+        if (s.graphImage)
+          return `<figure class="graph-image"><img src="${esc(s.graphImage)}" alt="${esc(s.imageAlt || "")}" loading="lazy"></figure>`;
+        if (s.stat)
+          return `<div class="statbox"><div class="bigstat">${esc(s.stat)}</div><div class="statlabel">${esc(s.label || "")}</div></div>`;
+        if (s.image)
+          return `<figure class="photo ${esc(s.imageClass || "")}"><img src="${esc(s.image)}" alt="${esc(s.imageAlt || "")}" loading="lazy"><figcaption><a href="${esc(s.imageSource)}" target="_blank" rel="noopener">${esc(s.imageCaption || "사진 출처: MINUSCA - 방기 시장의 지역사회 치안 활동")}</a></figcaption></figure>`;
+        if (s.chart)
+          return `<div class="media-placeholder">그래프 이미지 추가</div>`;
+        if (s.compare)
+          return `<div class="compare">${s.compare
+            .map(
+              (a) =>
+                `<div><h3>${esc(a[0])}</h3>${a
+                  .slice(1)
+                  .map((x, i) => `<p>${x}</p>`)
+                  .join("")}</div>`,
+            )
+            .join("")}</div>`;
+        if (s.table)
+          return `<table class="table"><thead><tr>${s.table[0].map((x) => `<th>${esc(x)}</th>`).join("")}</tr></thead><tbody>${s.table
+            .slice(1)
+            .map(
+              (r) => `<tr>${r.map((x) => `<td>${esc(x)}</td>`).join("")}</tr>`,
+            )
+            .join("")}</tbody></table>`;
+        if (s.cards)
+          return `<div class="rows">${s.cards.map((c) => `<div class="row"><b>${esc(c[0])}</b><span>${esc(c[1])}</span></div>`).join("")}</div>`;
+        return `<div class="shape"></div>`;
+      }
+      slides.forEach((s, i) => {
+        const el = document.createElement("section");
+        el.className = `slide ${s.kind || ""} ${s.dark ? "dark" : ""} ${s.graphImage ? "image-slide" : ""}`;
+        if (!["cover", "section", "question"].includes(s.kind))
+          el.classList.add(["yellow", "teal", "blue"][i % 3]);
+        el.dataset.section = s.section;
+        let content = "";
+        if (s.kind === "cover") {
+          content = `<div class="eyebrow">${esc(s.section)} - 조별 발표</div><h1 class="title">${esc(s.title).replaceAll("\n", "<br>")}</h1><p class="subtitle">${esc(s.sub)}</p><div class="cover-art"></div><div class="footer">${esc(s.note || "")}</div>`;
+        } else if (s.kind === "section") {
+          content = `<div class="eyebrow">${esc(s.section)}</div><h1 class="title">${esc(s.title).replaceAll("\n", "<br>")}</h1><p class="subtitle">${esc(s.sub || "")}</p><div class="side" style="position:absolute;right:8%;bottom:9%;width:25%;height:36%"><div class="shape"></div></div><div class="footer">${esc(s.note || "")}</div>`;
+        } else if (s.kind === "question") {
+          content = `<div class="eyebrow">${esc(s.section)} - 생각해볼 질문</div><h1 class="question">${esc(s.title).replaceAll("\n", "<br>")}</h1><p class="subtitle" style="margin-top:4%">${esc(s.sub || "")}</p><div class="side" style="position:absolute;right:9%;bottom:10%;width:20%;height:30%"><div class="shape"></div></div>`;
+        } else if (s.kind === "minimal") {
+          content = `<h1 class="minimal-title">${esc(s.title)}</h1>${s.sub ? `<p class="minimal-subtitle">${esc(s.sub)}</p>` : ""}`;
+        } else {
+          content = `<div class="eyebrow">${esc(s.section)}</div><h2 class="title">${esc(s.title)}</h2>${s.sub ? `<p class="subtitle">${esc(s.sub)}</p>` : ""}<div class="body ${s.fullMedia ? "full-media" : s.table || s.cards || s.compare || (!s.chart && !s.stat && !s.image) ? "full" : ""}">${s.copy ? `<p class="lead-copy">${esc(s.copy)}</p>` : s.points ? list(s.points) : ""}${s.stat || s.chart || s.table || s.cards || s.compare || s.image || s.graph || s.graphImage ? viz(s) : ""}</div>${s.sources ? `<div class="mini source-links">${s.note ? `<span>${esc(s.note)}</span>` : ""}<span>출처</span>${s.sources.map(([label, url]) => `<a href="${esc(url)}" target="_blank" rel="noopener">${esc(label)}</a>`).join("")}</div>` : s.note ? `<div class="mini">${esc(s.note)}</div>` : ""}`;
+        }
+        el.innerHTML =
+          content +
+          `<span class="page">${String(i + 1).padStart(2, "0")}</span>`;
+        stage.appendChild(el);
+      });
+      let at = 0;
+      const els = [...document.querySelectorAll(".slide")];
+      function show(n) {
+        at = (n + els.length) % els.length;
+        els.forEach((e, i) => e.classList.toggle("active", i === at));
+        let s = slides[at];
+        document.querySelector("#counter").textContent =
+          `${at + 1} / ${els.length}`;
+        document.querySelector("#topCount").textContent =
+          `${String(at + 1).padStart(2, "0")} / ${els.length}`;
+        document.querySelector("#sectionName").textContent = s.section;
+        document.querySelector("#progress").style.width =
+          `${((at + 1) / els.length) * 100}%`;
+        document.title = `${s.title.replaceAll("\n", " ")} — SDGs`;
+        history.replaceState(null, "", `#${at + 1}`);
+      }
+      function step(d) {
+        show(at + d);
+      }
+      document.querySelector("#prev").onclick = () => step(-1);
+      document.querySelector("#next").onclick = () => step(1);
+      document.addEventListener("keydown", (e) => {
+        if (["ArrowRight", "PageDown", " "].includes(e.key)) {
+          e.preventDefault();
+          step(1);
+        }
+        if (["ArrowLeft", "PageUp"].includes(e.key)) {
+          e.preventDefault();
+          step(-1);
+        }
+        if (e.key === "Home") show(0);
+        if (e.key === "End") show(els.length - 1);
+        if (e.key.toLowerCase() === "o") toggleOverview();
+      });
+      const ov = document.querySelector("#overview"),
+        grid = document.querySelector("#grid");
+      function toggleOverview() {
+        ov.classList.toggle("open");
+      }
+      document.querySelector("#closeOverview").onclick = toggleOverview;
+      slides.forEach((s, i) => {
+        let d = document.createElement("div");
+        d.className = "thumb";
+        d.style.background = getComputedStyle(els[i]).getPropertyValue("--bg");
+        d.style.color = els[i].classList.contains("dark") ? "#fff" : "#222";
+        d.innerHTML = `<small>${esc(s.section)} - ${String(i + 1).padStart(2, "0")}</small><b>${esc(s.title.replaceAll("\n", " "))}</b>`;
+        d.onclick = () => {
+          show(i);
+          toggleOverview();
+        };
+        grid.appendChild(d);
+      });
+      let hash = parseInt(location.hash.slice(1));
+      show(
+        Number.isFinite(hash) && hash > 0 ? Math.min(hash, els.length) - 1 : 0,
+      );
+    </script>
+  </body>
+</html>
