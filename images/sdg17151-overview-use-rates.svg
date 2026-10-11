@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="760" viewBox="0 0 1400 760" role="img" aria-labelledby="title desc">
+  <title id="title">국가 계획과 성과체계 활용률</title>
+  <desc id="desc">국가 계획 활용 91%, 국가 성과지표 활용 54%, 국가 통계자료 활용 46%, 종합 활용도 64%를 비교한 가로 막대그래프</desc>
+  <rect width="1400" height="760" rx="22" fill="#fffdf8"/>
+  <g font-family="S-Core Dream, SCoreDream, Apple SD Gothic Neo, sans-serif" fill="#202021">
+    <text x="78" y="74" font-size="30" font-weight="700">개발협력 사업에서 국가 체계를 활용한 비율</text>
+    <text x="78" y="116" font-size="18" fill="#77746f">사업 목표·성과 측정·통계자료 활용 비교</text>
+  </g>
+  <g stroke="#e5e1d9" stroke-width="2">
+    <line x1="440" y1="170" x2="440" y2="620"/>
+    <line x1="632" y1="170" x2="632" y2="620"/>
+    <line x1="824" y1="170" x2="824" y2="620"/>
+    <line x1="1016" y1="170" x2="1016" y2="620"/>
+    <line x1="1208" y1="170" x2="1208" y2="620"/>
+  </g>
+  <g font-family="S-Core Dream, SCoreDream, Apple SD Gothic Neo, sans-serif" font-size="25" fill="#333230">
+    <text x="78" y="240">국가 계획</text>
+    <text x="78" y="350">국가 성과지표</text>
+    <text x="78" y="460">국가 통계자료</text>
+    <text x="78" y="570">종합 활용도</text>
+  </g>
+  <g>
+    <rect x="440" y="203" width="699" height="52" rx="8" fill="#4dbcb6"/>
+    <rect x="440" y="313" width="415" height="52" rx="8" fill="#4dbcb6"/>
+    <rect x="440" y="423" width="353" height="52" rx="8" fill="#ff6247"/>
+    <rect x="440" y="533" width="491" height="52" rx="8" fill="#77746f"/>
+  </g>
+  <g font-family="S-Core Dream, SCoreDream, Apple SD Gothic Neo, sans-serif" font-size="27" font-weight="700" fill="#202021">
+    <text x="1156" y="239">91%</text>
+    <text x="872" y="349">54%</text>
+    <text x="810" y="459">46%</text>
+    <text x="948" y="569">64%</text>
+  </g>
+  <g font-family="S-Core Dream, SCoreDream, Apple SD Gothic Neo, sans-serif" font-size="18" fill="#77746f" text-anchor="middle">
+    <text x="440" y="666">0%</text>
+    <text x="632" y="666">25%</text>
+    <text x="824" y="666">50%</text>
+    <text x="1016" y="666">75%</text>
+    <text x="1208" y="666">100%</text>
+  </g>
+</svg>
