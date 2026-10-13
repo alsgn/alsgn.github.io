@@ -804,6 +804,37 @@
         margin: 0;
         max-width: 37em;
       }
+      .source-quotation {
+        max-width: 48em;
+      }
+      .source-quotation .quote-case-title {
+        margin: 0 0 5px;
+        font-size: clamp(15px, 1.8vw, 25px);
+        line-height: 1.4;
+        font-weight: 800;
+      }
+      .source-quotation .quote-case-value {
+        margin: 0 0 20px;
+        font-size: clamp(12px, 1.45vw, 20px);
+        line-height: 1.5;
+      }
+      .source-quotation blockquote {
+        margin: 0;
+        font-size: clamp(12px, 1.5vw, 21px);
+        line-height: 1.6;
+        font-weight: 500;
+      }
+      .source-quotation .translation {
+        margin: 14px 0 0;
+        font-size: clamp(16px, 2vw, 28px);
+        line-height: 1.65;
+        font-weight: 800;
+      }
+      .source-quotation .quote-context {
+        margin: 16px 0 0;
+        font-size: clamp(11px, 1.05vw, 15px);
+        line-height: 1.5;
+      }
       .photo {
         width: 100%;
         margin: 0;
@@ -1450,13 +1481,13 @@
         <div class="top-right">
           <span id="sectionName">INTRO</span>
           <div class="progress"><i id="progress"></i></div>
-          <span id="topCount">01 / 35</span>
+          <span id="topCount">01 / 36</span>
         </div>
       </header>
       <main class="stage" id="stage"></main>
       <nav class="controls" aria-label="슬라이드 이동">
         <button id="prev" aria-label="이전 슬라이드">←</button
-        ><span class="counter" id="counter">1 / 35</span
+        ><span class="counter" id="counter">1 / 36</span
         ><button id="next" aria-label="다음 슬라이드">→</button
         ><span class="hint">← → 키로 이동 / O 전체 보기</span>
       </nav>
@@ -1487,7 +1518,12 @@
           imageAlt: "UN의 SDG 16, 평화, 정의와 강력한 제도 공식 아이콘",
           imageCaption: "출처: UN, SDG 16 공식 아이콘",
           imageSource: "https://sdgs.un.org/goals/goal16",
-          sources: [["UN DESA, Goal 16 (Targets and Indicators)", "https://sdgs.un.org/goals/goal16"]],
+          sources: [
+            [
+              "UN DESA, Goal 16 (Targets and Indicators)",
+              "https://sdgs.un.org/goals/goal16",
+            ],
+          ],
         },
         {
           section: "16.8",
@@ -1662,7 +1698,12 @@
           imageAlt: "UN의 SDG 17, 목표 달성을 위한 파트너십 공식 아이콘",
           imageCaption: "출처: UN, SDG 17 공식 아이콘",
           imageSource: "https://sdgs.un.org/goals/goal17",
-          sources: [["UN DESA, Goal 17 (Targets and Indicators)", "https://sdgs.un.org/goals/goal17"]],
+          sources: [
+            [
+              "UN DESA, Goal 17 (Targets and Indicators)",
+              "https://sdgs.un.org/goals/goal17",
+            ],
+          ],
         },
         {
           section: "17.15.1",
@@ -1743,6 +1784,25 @@
         },
         {
           section: "17.15.1",
+          title: "국가 통계 자료의 부족",
+          sub: "UN 『The Sustainable Development Goals Extended Report 2026』",
+          sourceQuote: {
+            caseTitle: "사하라 이남 아프리카의 살인율 추정 (SDG 16.1.1)",
+            caseValue: "2024년 추정치: 인구 10만 명당 11.7명",
+            original:
+              "limited data availability in several countries introduces uncertainty around this estimate.",
+            translation:
+              "여러 국가에서 이용 가능한 자료가 제한적이어서 이 추정치에는 불확실성이 있다.",
+          },
+          sources: [
+            [
+              "UN, The Sustainable Development Goals Extended Report 2026, 지표 16.1.1, PDF 3쪽",
+              "https://unstats.un.org/sdgs/report/2026/extended-report/Extended-Report-2026_Goal-16.pdf#page=3",
+            ],
+          ],
+        },
+        {
+          section: "17.15.1",
           title: "신뢰할 수 있는 국가 데이터가 중요한 이유",
           cards: [
             ["공통된 근거의 존재", "정부와 개발 파트너가 성과를 함께 논의"],
@@ -1797,12 +1857,21 @@
           ],
           image: "images/data-for-now-kenya-roundtable-2025.webp",
           imageClass: "support-photo",
-          imageAlt: "2025년 10월 케냐 나이로비에서 개최된 Data for Now 파트너 및 이해관계자 협력 회의",
-          imageCaption: "Data for Now 협력 회의 (2025.10), 사진: 케냐 국가통계청",
-          imageSource: "https://unstats.un.org/UNSDWebsite/capacity-development/data-for-now/country-details/Kenya",
+          imageAlt:
+            "2025년 10월 케냐 나이로비에서 개최된 Data for Now 파트너 및 이해관계자 협력 회의",
+          imageCaption:
+            "Data for Now 협력 회의 (2025.10), 사진: 케냐 국가통계청",
+          imageSource:
+            "https://unstats.un.org/UNSDWebsite/capacity-development/data-for-now/country-details/Kenya",
           sources: [
-            ["UNSD, Data for Now in Kenya", "https://unstats.un.org/UNSDWebsite/capacity-development/data-for-now/country-details/Kenya"],
-            ["UNSD, Workshop on strengthening national capacity for SDG 11 indicators in Kenya (2026)", "https://unstats.un.org/UNSDWebsite/events-details/D4N-workshop-SDG11-indicators-in-Kenya"],
+            [
+              "UNSD, Data for Now in Kenya",
+              "https://unstats.un.org/UNSDWebsite/capacity-development/data-for-now/country-details/Kenya",
+            ],
+            [
+              "UNSD, Workshop on strengthening national capacity for SDG 11 indicators in Kenya (2026)",
+              "https://unstats.un.org/UNSDWebsite/events-details/D4N-workshop-SDG11-indicators-in-Kenya",
+            ],
           ],
         },
         {
@@ -1810,10 +1879,16 @@
           title: "Data for Now: 데이터 처리 시간의 개선",
           sub: "콜롬비아 DANE의 IT 기반 개선 사례",
           graphImage: "images/data-for-now-colombia-loading-time.svg",
-          imageAlt: "콜롬비아 DANE의 특정 행정자료 로딩 시간이 IT 기반 개선 전 45분에서 개선 후 3분 미만으로 감소한 전후 비교",
+          imageAlt:
+            "콜롬비아 DANE의 특정 행정자료 로딩 시간이 IT 기반 개선 전 45분에서 개선 후 3분 미만으로 감소한 전후 비교",
           fullMedia: true,
           note: "특정 행정자료 1종의 로딩 시간. DANE가 추산한 수치, 보고서 p.3.",
-          sources: [["UN Statistical Commission (2022), Data for Now initiative: use of innovative methods, tools and data sources for more accurate, timely and granular Sustainable Development Goal data", "https://ecosoc.un.org/sites/default/files/documents/2023/BG-3a-Data-for-Now-E.pdf"]],
+          sources: [
+            [
+              "UN Statistical Commission (2022), Data for Now initiative: use of innovative methods, tools and data sources for more accurate, timely and granular Sustainable Development Goal data",
+              "https://ecosoc.un.org/sites/default/files/documents/2023/BG-3a-Data-for-Now-E.pdf",
+            ],
+          ],
         },
         {
           section: "17.15.1",
@@ -2104,7 +2179,7 @@
         } else if (s.kind === "minimal") {
           content = `<h1 class="minimal-title">${esc(s.title)}</h1>${s.sub ? `<p class="minimal-subtitle">${esc(s.sub)}</p>` : ""}`;
         } else {
-          content = `<div class="eyebrow">${esc(s.section)}</div><h2 class="title">${esc(s.title)}</h2>${s.sub ? `<p class="subtitle">${esc(s.sub)}</p>` : ""}<div class="body ${s.fullMedia ? "full-media" : s.table || s.cards || s.compare || (!s.chart && !s.stat && !s.image) ? "full" : ""}">${s.copy ? `<p class="lead-copy">${esc(s.copy)}</p>` : s.points ? list(s.points) : ""}${s.stat || s.chart || s.table || s.cards || s.compare || s.image || s.graph || s.graphImage ? viz(s) : ""}</div>${s.sources ? `<div class="mini source-links">${s.note ? `<span>${esc(s.note)}</span>` : ""}<span>출처</span>${s.sources.map(([label, url]) => `<a href="${esc(url)}" target="_blank" rel="noopener">${esc(label)}</a>`).join("")}</div>` : s.note ? `<div class="mini">${esc(s.note)}</div>` : ""}`;
+          content = `<div class="eyebrow">${esc(s.section)}</div><h2 class="title">${esc(s.title)}</h2>${s.sub ? `<p class="subtitle">${esc(s.sub)}</p>` : ""}<div class="body ${s.fullMedia ? "full-media" : s.table || s.cards || s.compare || (!s.chart && !s.stat && !s.image) ? "full" : ""}">${s.sourceQuote ? `<div class="source-quotation">${s.sourceQuote.caseTitle ? `<p class="quote-case-title">${esc(s.sourceQuote.caseTitle)}</p><p class="quote-case-value">${esc(s.sourceQuote.caseValue)}</p>` : ""}<blockquote>“${esc(s.sourceQuote.original)}”</blockquote><p class="translation">“${esc(s.sourceQuote.translation)}”</p><p class="quote-context">${esc(s.sourceQuote.context)}</p></div>` : s.copy ? `<p class="lead-copy">${esc(s.copy)}</p>` : s.points ? list(s.points) : ""}${s.stat || s.chart || s.table || s.cards || s.compare || s.image || s.graph || s.graphImage ? viz(s) : ""}</div>${s.sources ? `<div class="mini source-links">${s.note ? `<span>${esc(s.note)}</span>` : ""}<span>출처</span>${s.sources.map(([label, url]) => `<a href="${esc(url)}" target="_blank" rel="noopener">${esc(label)}</a>`).join("")}</div>` : s.note ? `<div class="mini">${esc(s.note)}</div>` : ""}`;
         }
         el.innerHTML =
           content +
