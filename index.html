@@ -127,6 +127,28 @@
         --bg: var(--coral);
         --accent: var(--yellow);
       }
+      .slide.section.large-divider {
+        justify-content: center;
+        padding: 7% 8%;
+        container-type: inline-size;
+      }
+      .large-divider .title {
+        font-size: clamp(32px, 7.8cqw, 108px);
+        line-height: 1.14;
+        letter-spacing: -0.02em;
+        max-width: 100%;
+        margin: 0;
+      }
+      .large-divider .eyebrow {
+        position: absolute;
+        top: 9%;
+        left: 8%;
+      }
+      .large-divider .side,
+      .large-divider .subtitle,
+      .large-divider .footer {
+        display: none;
+      }
       .slide.dark {
         --bg: #252321;
         --accent: var(--teal);
@@ -607,6 +629,45 @@
       }
     </style>
     <style id="editorial-overrides">
+      .slide.roomy-copy {
+        container-type: inline-size;
+      }
+      .slide.roomy-copy .points {
+        gap: clamp(14px, 2cqw, 28px);
+      }
+      .slide.roomy-copy .points li {
+        font-size: clamp(15px, 2.6cqw, 30px);
+        line-height: 1.7;
+      }
+      .slide.emphasis-copy {
+        container-type: inline-size;
+      }
+      .slide.emphasis-copy .lead-copy {
+        font-size: clamp(14px, 2.8cqw, 32px);
+        line-height: 1.6;
+        font-weight: 800;
+        max-width: 100%;
+      }
+      .slide.sdg16-tone {
+        --bg: #00689d;
+        --accent: #00689d;
+        color: #ffffff;
+      }
+      .slide.sdg17-tone {
+        --bg: #19486a;
+        --accent: #19486a;
+        color: #ffffff;
+      }
+      .slide.sdg16-tone:after,
+      .slide.sdg17-tone:after {
+        display: none;
+      }
+      .sdg16-tone .mini,
+      .sdg16-tone .photo figcaption,
+      .sdg17-tone .mini,
+      .sdg17-tone .photo figcaption {
+        color: #d9e6ef;
+      }
       .points li:before {
         content: "-";
         width: auto;
@@ -674,6 +735,68 @@
       }
     </style>
     <style id="photo-and-intro">
+      .verbatim .title {
+        max-width: 100%;
+      }
+      .verbatim-copy {
+        white-space: pre-line;
+        font-size: clamp(16px, 1.75vw, 25px);
+        line-height: 1.7;
+        font-weight: 500;
+      }
+      .verbatim-with-photo,
+      .section-image-layout {
+        display: grid;
+        grid-template-columns: 1fr 42%;
+        gap: 6%;
+        align-items: center;
+        flex: 1;
+        min-height: 0;
+      }
+      .section-image-layout .title {
+        max-width: 100%;
+        margin: 0;
+      }
+      .section-image-layout .photo {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100%;
+        min-height: 0;
+      }
+      .photo.support-photo img {
+        aspect-ratio: auto;
+        object-fit: contain;
+      }
+      .photo.report-cover img {
+        width: auto;
+        max-width: 100%;
+        height: 0;
+        flex: 1;
+        min-height: 0;
+        aspect-ratio: auto;
+        object-fit: contain;
+      }
+      .photo-credit {
+        display: block;
+        margin-top: 3px;
+      }
+      .verbatim-graph {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        min-height: 0;
+        gap: 12px;
+      }
+      .verbatim-graph .verbatim-copy {
+        font-size: clamp(13px, 1.4vw, 20px);
+        line-height: 1.4;
+      }
+      .verbatim-graph .graph-image {
+        flex: 1;
+        height: 0;
+        min-height: 0;
+      }
       .lead-copy {
         font-size: clamp(17px, 2vw, 28px);
         line-height: 1.62;
@@ -1327,13 +1450,13 @@
         <div class="top-right">
           <span id="sectionName">INTRO</span>
           <div class="progress"><i id="progress"></i></div>
-          <span id="topCount">01 / 48</span>
+          <span id="topCount">01 / 35</span>
         </div>
       </header>
       <main class="stage" id="stage"></main>
       <nav class="controls" aria-label="슬라이드 이동">
         <button id="prev" aria-label="이전 슬라이드">←</button
-        ><span class="counter" id="counter">1 / 48</span
+        ><span class="counter" id="counter">1 / 35</span
         ><button id="next" aria-label="다음 슬라이드">→</button
         ><span class="hint">← → 키로 이동 / O 전체 보기</span>
       </nav>
@@ -1353,141 +1476,24 @@
           mark: "SDG",
         },
         {
-          section: "16.1",
-          kind: "section",
-          title: "폭력과 분쟁 사망을\n줄이기 위한 노력",
-          sub: "SDG 16.1 - 모든 형태의 폭력과 폭력 관련 사망 감소",
-          note: "",
-          mark: "16.1",
-        },
-        {
-          section: "16.1",
-          title: "목차",
-          points: [
-            "1. SDG 16.1 소개 및 현황",
-            "2. 국제 분쟁으로 인한 민간인 사망 현황",
-            "3. 민간인 구제를 위한 방법",
-          ],
-        },
-        {
-          section: "16.1",
-          title: "SDG 16.1 소개",
-          copy: "SDG 16.1은 ‘모든 형태의 폭력과 그로 인한 사망을 전 세계적으로 크게 줄이는 것’을 목표로 한다. 전쟁이나 테러뿐 아니라 살인, 신체적, 심리적, 성적 폭력 등 일상에서 발생하는 폭력도 포함한다.",
-          image: "sdg161-intro-photo.jpg",
-          imageAlt:
-            "중앙아프리카공화국 방기 시장에서 유엔 경찰과 지역 경찰, 주민들이 대화하는 모습",
-          imageSource:
-            "https://minusca.unmissions.org/fr/actualites/quand-les-communautes-contribuent-leur-propre-securite",
-        },
-        {
-          section: "16.1",
-          title: "SDG 16.1의 지표",
-          sub: "사망자 수 감소를 넘어, 폭력을 덜 겪고 일상에서 안전하다고 느끼는 사회를 지향한다.",
-          points: [
-            "고의적 살인 피해자 수",
-            "분쟁 관련 사망자 수",
-            "최근 1년간 신체적, 심리적, 성적 폭력을 겪은 인구 비율",
-            "밤에 혼자 거리를 걸을 때 안전하다고 느끼는 인구 비율",
-          ],
-        },
-        {
-          section: "16.1",
-          sub: "감소세는 보이지만, 목표선에는 못 미친다",
-          title: "살인율과 분쟁 관련 민간인 사망의 최근 추세",
-          graph: "trends",
-          note: "2030 예상은 2015년 대비 25% 감소 추세를 적용한 값. 목표선은 50% 감소 기준.",
-        },
-        {
-          section: "16.1",
-          sub: "피해는 특정 지역에 집중되고, 안전 체감은 정체",
-          title: "2025 분쟁 사망자의 지역별 분포 / 야간 안전 인식",
-          graph: "distribution",
-          note: "유엔 집계 및 발표 자료 기준. 아동과 여성 비율은 서로 겹칠 수 있음.",
-        },
-        {
-          section: "16.1",
-          title: "사망자는 감소했지만, 분쟁은 역대 최고 수준",
-          graph: "direction",
-        },
-        {
-          section: "16.1",
-          kind: "section",
-          title: "분쟁으로 인한\n민간인 사망자 통계",
-          sub: "기록된 사망의 규모와 피해 양상을 살펴본다",
-          mark: "16.1",
-        },
-        {
-          section: "16.1",
-          title: "분쟁 관련 사망자 추이, 2015–2025",
-          graphImage: "images/documented-conflict-deaths-2015-2025.png",
-          imageAlt:
-            "2015년부터 2025년까지 기록된 분쟁 관련 사망자 총계와 전년 대비 증감률을 나타낸 그래프",
-          fullMedia: true,
-        },
-        {
-          section: "16.1",
-          title: "감소했지만, 여전히 높은 사망 규모",
-          sub: "유엔 집계 기준 무력분쟁 중 민간인 사망자. 2025년은 2015년보다 많고 전년보다 23% 줄었다",
-          graph: "conflict-summary",
-        },
-        {
-          section: "16.1",
-          title: "2025년 민간인 사망자 구성",
-          graphImage: "images/civilian-deaths-age-sex-2025.png",
-          imageAlt:
-            "2025년 기록된 민간인 분쟁 사망자를 연령과 성별로 나눈 도넛 그래프",
-          fullMedia: true,
-        },
-        {
-          section: "16.1",
-          title: "분쟁별 민간인 사망 비율",
-          graphImage: "images/civilian-death-rates-conflicts.png",
-          imageAlt:
-            "르완다, 마리우폴, 스레브레니차, 가자 등 주요 분쟁에서 추정된 민간인 사망 비율 비교 그래프",
-          fullMedia: true,
-        },
-        {
-          section: "16.1",
-          kind: "minimal",
-          title: "해석",
-          sub: "피해 실태와 한계 → 국제 분쟁 민간인 구제",
-        },
-        {
-          section: "16.1",
-          title: "국제인도법",
-          sub: "무력충돌 중 피해를 줄이고 사람과 시설을 보호하는 규칙",
-          points: [
-            "구별의 원칙: 민간인과 전투원, 민간시설과 군사목표를 구별해야 한다.",
-            "비례성의 원칙: 예상되는 민간인 피해가 군사적 이익에 비해 과도한 공격은 금지된다.",
-            "공격 시 주의 의무: 민간인 피해를 줄이기 위해 가능한 예방 조치를 취해야 한다.",
-            "인도적 대우: 전투에서 벗어난 사람, 포로, 부상자와 민간인을 고문·학대하거나 함부로 공격해서는 안 된다.",
-          ],
-          note: "1949 제네바협약, 추가의정서, 국제관습법",
-        },
-        {
-          section: "16.1",
-          title: "그외의 국제법 관리 주체들:",
-          points: [
-            "각국 정부와 군: 법 반영과 교육, 감독, 수사, 처벌",
-            "국제적십자위원회(ICRC) : 피해자 보호와 지원, 당사자와의 비공개 대화 -> 규칙 준수 촉구",
-            "국제인도주의 사실조사위원회(IHFFC): 독립적 조사 기구",
-            "국제형사재판소(ICC): 국제범죄 수사와 재판 권한이 있음",
-            "UN 안전보장이사회 : 제재, 무기금수, 평화유지활동",
-          ],
-          image: "images/ihl-training-officials.webp",
-          imageAlt:
-            "방글라데시 콕스바자르에서 국제인도법 교육에 참여한 정부 관계자들",
-          imageSource:
-            "https://www.icrc.org/en/photo-gallery/icrc-bangladesh-2025-images",
-          imageCaption:
-            "콕스바자르 국제인도법 설명회에 참석한 정부 관계자들 (ICRC)",
-          imageClass: "ihl-photo",
-          mark: "PROTECT",
+          section: "16",
+          title: "SDG 16",
+          sub: "평화, 정의와 강력한 제도",
+          tone: "sdg16",
+          emphasisCopy: true,
+          copy: "평화롭고 포용적인 사회를 조성하고, 모든 사람에게 정의에 대한 접근을 보장하며, 효과적이고 책임감 있는 제도와 기관을 구축하는 것을 목표로 함.",
+          image: "images/un-sdg16-official-icon.jpg",
+          imageClass: "support-photo",
+          imageAlt: "UN의 SDG 16, 평화, 정의와 강력한 제도 공식 아이콘",
+          imageCaption: "출처: UN, SDG 16 공식 아이콘",
+          imageSource: "https://sdgs.un.org/goals/goal16",
+          sources: [["UN DESA, Goal 16 (Targets and Indicators)", "https://sdgs.un.org/goals/goal16"]],
         },
         {
           section: "16.8",
           kind: "section",
-          title: "국제기구에서 개발도상국의\n대표성과 참여",
+          largeDivider: true,
+          title: "국제기구에서\n개발도상국의\n대표성과 참여",
           sub: "SDG 16.8.1 - 회원 비율과 공식 투표권 비율",
           note: "SDG 16.8",
           mark: "16.8",
@@ -1587,6 +1593,7 @@
         {
           section: "16.8",
           title: "기구마다 다른 개혁 방식",
+          roomyCopy: true,
           sub: "공식 권한과 실제 참여의 장벽을 각각 다룸",
           points: [
             "IMF - 투표권 배분 조정",
@@ -1644,8 +1651,23 @@
           ],
         },
         {
+          section: "17",
+          title: "SDG 17",
+          sub: "목표 달성을 위한 파트너십",
+          tone: "sdg17",
+          emphasisCopy: true,
+          copy: "지속가능발전목표(SDGs) 달성을 위해 국가 간 재원, 기술, 지식 등을 공유하고 국제적 협력과 파트너십을 강화하는 것을 목표로 함.",
+          image: "images/un-sdg17-official-icon.jpg",
+          imageClass: "support-photo",
+          imageAlt: "UN의 SDG 17, 목표 달성을 위한 파트너십 공식 아이콘",
+          imageCaption: "출처: UN, SDG 17 공식 아이콘",
+          imageSource: "https://sdgs.un.org/goals/goal17",
+          sources: [["UN DESA, Goal 17 (Targets and Indicators)", "https://sdgs.un.org/goals/goal17"]],
+        },
+        {
           section: "17.15.1",
           kind: "section",
+          largeDivider: true,
           title: "개발협력에서\n국가 데이터의 중요성",
           sub: "SDG 17.15.1 - 성과를 누구의 기준과 데이터로 확인할까?",
           note: "SDG 17.15.1",
@@ -1680,21 +1702,6 @@
         },
         {
           section: "17.15.1",
-          title: "개발 파트너 유형별 국가 성과체계 활용",
-          sub: "전체 평균은 2018년과 2026년 모두 64%. 다자개발 파트너는 71%에서 66%로 하락, 양자 파트너는 56%에서 60%로 상승",
-          graphImage: "images/sdg17151-figure-3-2-partner-type.png",
-          imageAlt:
-            "OECD·UNDP 보고서 Figure 3.2. 개발 파트너 유형별 국가 성과체계 활용률을 2018년과 2026년으로 비교한 막대그래프",
-          fullMedia: true,
-          sources: [
-            [
-              "OECD & UNDP, Making Development Co-operation More Effective Progress Report 2026, Figure 3.2",
-              "https://www.oecd.org/en/publications/making-development-co-operation-more-effective-progress-report-2026_3a427ab2-en/full-report.html",
-            ],
-          ],
-        },
-        {
-          section: "17.15.1",
           title: "성과체계 활용은 정체, 국가 데이터 활용은 낮고 감소",
           sub: "2018년과 2026년 사이 국가 성과체계 활용은 정체했고, 국가 통계 시스템 자료의 활용은 더 낮아졌다",
           graphImage: "images/sdg17151-figure-3-3-trend.png",
@@ -1710,8 +1717,8 @@
         },
         {
           section: "17.15.1",
-          title: "목표 연계에 비해 성과지표·정부 자료 활용은 낮다",
-          sub: "파트너 유형별 국가 목표 정렬은 89–97%, 국가 성과지표 활용은 49–78%, 정부 자료 활용은 40–69%",
+          title: "목표 연계 vs 성과지표 / 데이터 활용",
+          sub: "국가 목표 연계 : 89–97% vs 국가 성과지표 활용 49–78%, 정부 자료 활용 40–69%",
           graphImage: "images/sdg17151-figure-3-4-by-partner.png",
           imageAlt:
             "OECD·UNDP 보고서 Figure 3.4. DAC 회원국, 다자개발은행, UN 기구, 기타 파트너별 국가 목표, 국가 성과지표, 정부 자료 활용률을 비교한 그래프",
@@ -1725,7 +1732,7 @@
         },
         {
           section: "17.15.1",
-          title: "국가 데이터를 사용하지 않는 이유",
+          title: "국가 데이터를 사용하지 않는 이유는?",
           points: [
             "자료를 구하기 어렵거나 품질이 낮거나 최신 자료가 아닐 수 있음",
             "소규모 사업이나 사업 자체에서 자료를 만드는 경우 국가 자료가 맞지 않을 수 있음",
@@ -1738,15 +1745,15 @@
           section: "17.15.1",
           title: "신뢰할 수 있는 국가 데이터가 중요한 이유",
           cards: [
-            ["같은 근거", "정부와 개발 파트너가 성과를 함께 논의"],
-            ["효과 점검", "지원 방식의 효과를 판단하고 다음 계획 수정"],
-            ["포용성", "누가 지원에서 배제됐는지 확인"],
+            ["공통된 근거의 존재", "정부와 개발 파트너가 성과를 함께 논의"],
+            ["근거를 바탕으로", "지원 방식의 효과를 판단하고 다음 계획 수정"],
+            ["(*) 포용성 확보를 위해 중요함", "누가 지원에서 배제됐는지 확인"],
           ],
           mark: "TRUST",
         },
         {
           section: "17.15.1",
-          title: "데이터 활용과 품질은 함께 개선해야 한다",
+          title: '"데이터 활용과 품질은 함께 개선해야 한다"',
           points: [
             "국가 자료가 불완전하거나 신뢰하기 어려우면 자체 자료를 선택할 수 있음",
             "자체 자료 사용이 반복되면 국가 통계 시스템의 활용과 개선이 더뎌질 수 있음",
@@ -1757,7 +1764,7 @@
         },
         {
           section: "17.15.1",
-          title: "케냐: 국가 성과체계 활용도 상승",
+          title: "케냐의 사례",
           sub: "개발 파트너의 국가 성과체계 활용도",
           stat: "63% → 75%",
           label: "2018년 → 2026년",
@@ -1770,18 +1777,47 @@
         },
         {
           section: "17.15.1",
-          title: "케냐의 통계 역량 강화: Data for Now",
+          title: "케냐의 통계 역량 강화의 배경 - Data for Now 이니셔티브",
           points: [
-            "국가통계청이 새 데이터 출처, 기술, 방법을 활용하도록 지원",
-            "지속가능발전 자료를 더 적시에, 세분화해 생산하고 배포",
+            "2019년 UN 부사무총장 아미나 모하메드(Amina Mohammed)에 의해 공식 출범",
+            "국가통계청이 새 데이터 출처, 기술, 방법을 활용하도록 지원 - 혁신 기술 적극 도입",
+            "통계 자료를 더 시의성 있게 & 세분화해 생산하고 배포하도록 함",
             "우선 과제: 이용자 참여, 부패 통계, 재난 통계, 도시화, 시민 자료 활용",
-            "2025년 자료 생산자와 이용자의 협력을 높이는 전략 초안 마련",
           ],
           mark: "NOW",
         },
         {
           section: "17.15.1",
-          title: "통계 시스템 개선에 필요한 기반",
+          title: "Data for Now: 케냐의 구체적인 변화",
+          sub: "UNSD 「Data for Now in Kenya」에 소개된 통계 역량 강화",
+          points: [
+            "이용자 참여 전략: 자료 생산자와 이용자를 연결하는 전략 초안 마련 (2025)",
+            "재난 통계: 행정자료를 활용한 재난 데이터 목록 구축 추진",
+            "도시화 통계: 공간정보와 국가 통계를 결합해 SDG 11.3.1 예비 추정치 생산, 공동 검증계획 마련 (2026.3)",
+          ],
+          image: "images/data-for-now-kenya-roundtable-2025.webp",
+          imageClass: "support-photo",
+          imageAlt: "2025년 10월 케냐 나이로비에서 개최된 Data for Now 파트너 및 이해관계자 협력 회의",
+          imageCaption: "Data for Now 협력 회의 (2025.10), 사진: 케냐 국가통계청",
+          imageSource: "https://unstats.un.org/UNSDWebsite/capacity-development/data-for-now/country-details/Kenya",
+          sources: [
+            ["UNSD, Data for Now in Kenya", "https://unstats.un.org/UNSDWebsite/capacity-development/data-for-now/country-details/Kenya"],
+            ["UNSD, Workshop on strengthening national capacity for SDG 11 indicators in Kenya (2026)", "https://unstats.un.org/UNSDWebsite/events-details/D4N-workshop-SDG11-indicators-in-Kenya"],
+          ],
+        },
+        {
+          section: "17.15.1",
+          title: "Data for Now: 데이터 처리 시간의 개선",
+          sub: "콜롬비아 DANE의 IT 기반 개선 사례",
+          graphImage: "images/data-for-now-colombia-loading-time.svg",
+          imageAlt: "콜롬비아 DANE의 특정 행정자료 로딩 시간이 IT 기반 개선 전 45분에서 개선 후 3분 미만으로 감소한 전후 비교",
+          fullMedia: true,
+          note: "특정 행정자료 1종의 로딩 시간. DANE가 추산한 수치, 보고서 p.3.",
+          sources: [["UN Statistical Commission (2022), Data for Now initiative: use of innovative methods, tools and data sources for more accurate, timely and granular Sustainable Development Goal data", "https://ecosoc.un.org/sites/default/files/documents/2023/BG-3a-Data-for-Now-E.pdf"]],
+        },
+        {
+          section: "17.15.1",
+          title: "통계 시스템 개선에 필요한 노력",
           points: [
             "국가 통계 시스템의 품질 개선에는 장기적인 운영 재원이 필요",
             "일회성 프로젝트 지원만으로 행정자료 시스템을 충분히 개선하기 어려움",
@@ -1793,119 +1829,95 @@
         {
           section: "17.16",
           kind: "section",
-          title: "효과적인 개발협력",
-          sub: "SDG 17.16 - 여러 주체의 협력으로 지속가능발전목표 달성",
-          note: "",
-          mark: "17.16",
+          largeDivider: true,
+          title: "효과적인\n개발협력",
         },
         {
           section: "17.16",
-          title: "SDG 17.16 글로벌 파트너십",
-          points: [
-            "정부, 국제기구, 기업, 시민사회가 SDGs 달성을 위해 협력",
-            "자금과 기술, 전문성을 공유해 개발도상국의 이행을 지원",
-          ],
-          mark: "PARTNERS",
-        },
-        {
-          section: "17.16",
-          title: "SDG 17.16과 지표 17.16.1",
-          points: [
-            "17.16은 여러 주체의 협력으로 SDGs를 달성하는 목표",
-            "17.16.1은 다자 이해관계자 개발협력 효과성 모니터링 체계의 진전을 보고한 국가 비율",
-            "수원국과 개발협력 제공국의 평가를 함께 살펴봄",
-          ],
-          mark: "17.16.1",
-        },
-        {
-          section: "17.16",
-          title: "개발협력 효과성 평가",
-          sub: "진전은 수원국 25%, 제공국 33%. 악화는 각각 68%, 54%",
-          graphImage: "images/sdg17161-source-figure1.png",
+          kind: "verbatim",
+          title: "SDG 17.16",
+          literal:
+            "- 여러국가/다양한 주체가 함께 협력\n- 단순 돈 지원(X) 각 주체가 가지는 지식, 전문경험, 전문 능력, 기술, 자금 등 공유 (O)",
+          image: "images/sdg1716-partnership-hlpf.jpg",
+          imageClass: "support-photo",
           imageAlt:
-            "2023년부터 2026년까지 다자 이해관계자 개발협력 효과성 평가. 수원국은 진전 25%, 변화 없음 7%, 악화 68%, 제공국은 진전 33%, 변화 없음 13%, 악화 54%",
-          fullMedia: true,
+            "2018년 UN 고위급정치포럼에서 열린 GPEDC 다자 이해관계자 협력 행사",
+          imageCaption:
+            "사진: UNDP 서울정책센터, HLPF 다자 이해관계자 협력 행사 (2018)",
+          imageSource:
+            "https://www.undp.org/policy-centre/seoul/press-releases/stakeholders-embrace-country-level-frameworks-resilient-partnerships-2018-un-high-level-political-forum",
+        },
+        {
+          section: "17.16",
+          kind: "verbatim",
+          title: "SDG 17.16.1",
+          literal:
+            ": 17.16에서 목표하는 협력이 실제로 효과적으로 이루어지고 있는가\n(그래프)\n-> 양쪽 모두 협력 효과성을 개선할 필요가 있음",
+          graphImage: "images/sdg1716-effectiveness-2026.jpeg",
+          imageAlt:
+            "개발협력 효과성 평가에서 수원국과 제공국의 진전, 변화 없음, 악화 비율을 비교한 그래프",
           sources: [
             [
-              "OECD & UNDP, Making Development Co-operation More Effective Progress Report 2026, Chart 1",
-              "https://www.oecd.org/en/publications/making-development-co-operation-more-effective-progress-report-2026_3a427ab2-en/full-report/overview-of-the-2023-26-global-partnership-monitoring-round_53d14127.html",
-            ],
-          ],
-        },
-        {
-          section: "17.16",
-          title: "국가예산에 기록된 개발협력 자금",
-          sub: "전체 협력국 평균 66%에서 41%로 하락, 2014년에서 2026년",
-          graphImage: "images/sdg17161-source-figure2.png",
-          imageAlt:
-            "개발협력 자금 중 국가예산에 기록된 비율. 전체 협력국은 2014년 66%, 2016년 66%, 2018년 61%, 2026년 41%로 감소. 최빈개도국, 취약국, 저소득국, 중하위소득국별 추이도 비교",
-          fullMedia: true,
-          sources: [
-            [
-              "OECD & UNDP, Making Development Co-operation More Effective Progress Report 2026, Figure 4.3",
-              "https://www.oecd.org/en/publications/making-development-co-operation-more-effective-progress-report-2026_3a427ab2-en/full-report/using-and-strengthening-country-systems_f576468d.html",
-            ],
-          ],
-        },
-        {
-          section: "17.16",
-          title: "개발협력 지원계획의 예측 가능성",
-          sub: "2026년 제공자 중 67%는 1년, 48%는 2년, 41%는 3년 뒤까지 지출계획을 제시",
-          graphImage: "images/sdg17161-source-figure3.png",
-          imageAlt:
-            "개발협력 제공자가 1년, 2년, 3년 뒤까지 지출계획을 제시한 비율. 2026년 각각 67%, 48%, 41%이며, 2014년부터 2026년까지 추이 포함",
-          fullMedia: true,
-          sources: [
-            [
-              "OECD & UNDP, Making Development Co-operation More Effective Progress Report 2026, Figure 4.1",
+              "OECD/UNDP (2026), Making Development Co-operation More Effective Progress Report 2026, Chart 1",
               "https://www.oecd.org/en/publications/making-development-co-operation-more-effective-progress-report-2026_3a427ab2-en/full-report/making-development-co-operation-funding-predictable-and-gender-responsive_788b87ee.html",
             ],
           ],
         },
         {
           section: "17.16",
-          title: "상호책임 체계의 다섯 요소",
-          sub: "공동 평가 4개국, 다양한 이해관계자 참여 3개국, 결과 공개 2개국. 5개 요소 중 4개 이상을 갖춘 국가는 44개국 중 3개국",
-          graphImage: "images/sdg17161-source-figure4.png",
+          kind: "section",
+          title: "문제점과 보완방법",
+          image: "images/sdg1716-report-cover.png",
+          imageClass: "report-cover",
           imageAlt:
-            "44개 협력국의 상호책임 체계 구성요소. 정책 체계 28개국, 참여자별 목표 12개국, 정기 공동평가 4개국, 정부 밖 이해관계자 참여 3개국, 결과 공개 2개국. 다섯 요소 중 네 개 이상을 갖춘 국가는 3개국",
-          fullMedia: true,
+            "OECD와 UNDP의 Making Development Co-operation More Effective Progress Report 2026 보고서 표지",
+          imageCaption:
+            "OECD/UNDP, Making Development Co-operation More Effective Progress Report 2026",
+          imageCredit: "표지 사진: fallon collection / Shutterstock",
+          imageSource:
+            "https://www.oecd.org/en/publications/making-development-co-operation-more-effective-progress-report-2026_3a427ab2-en.html",
+        },
+        {
+          section: "17.16",
+          kind: "verbatim",
+          title: "문제1. 개발협력 자금과 구원국 국가예산의 연계 부족",
+          literal: "- 공여국 측 문제\n- 수원국 측 문제\n- 구조적 문제",
+          image: "images/sdg1716-budget-workshop.jpg",
+          imageClass: "support-photo",
+          imageAlt:
+            "우즈베키스탄 경제재정부와 UNDP의 공공재정 및 SDG 예산계획 워크숍",
+          imageCaption:
+            "사진: UNDP Uzbekistan, 공공재정과 SDG 예산계획 워크숍 (2026)",
+          imageSource:
+            "https://www.undp.org/uzbekistan/press-releases/integrating-sdgs-and-green-priorities-public-financial-management-uzbekistan",
+        },
+        {
+          section: "17.16",
+          kind: "verbatim",
+          title: "공여국의 자금 계획이 구원국 국가 예산에 반영되어있는 비율",
+          literal: "(그래프)\n-> 전체적으로 감소 중",
+          graphImage: "images/sdg1716-national-budget-2026.jpeg",
+          imageAlt:
+            "개발협력 자금의 국가예산 반영률을 국가 유형과 연도별로 비교한 Figure 4.3 그래프",
           sources: [
             [
-              "OECD & UNDP, Making Development Co-operation More Effective Progress Report 2026, Figure 5.1",
-              "https://www.oecd.org/en/publications/making-development-co-operation-more-effective-progress-report-2026_3a427ab2-en/full-report/holding-each-other-to-account-and-promoting-transparency_1a638c14.html",
+              "OECD/UNDP (2026), Making Development Co-operation More Effective Progress Report 2026, Figure 4.3",
+              "https://www.oecd.org/en/publications/making-development-co-operation-more-effective-progress-report-2026_3a427ab2-en/full-report/making-development-co-operation-funding-predictable-and-gender-responsive_788b87ee.html",
             ],
           ],
         },
         {
           section: "17.16",
-          title: "개선 방법 ① 지원계획과 국가계획 연계",
-          points: [
-            "제공자는 지원 규모와 시기, 분야를 미리 공유",
-            "수원국은 외부 지원을 국가예산과 발전계획에 반영",
-            "양측이 국가 우선순위에 맞춰 사업을 함께 설계",
-          ],
-          mark: "ALIGN",
+          kind: "verbatim",
+          title: "어떻게 해야하는가?",
+          literal:
+            "국가계획 간 연계 강화\n공여국: 얼마를 언제, 어떤 분야에 지원할 것인지 사전 공유 / 수원국 사업을 대신 계획해주는 비율 줄이기\n수원국: 자체적으로 국가예산, 개발계획에 반영",
         },
         {
           section: "17.16",
-          title: "개선 방법 ② 예측 가능한 중장기 지원",
-          points: [
-            "가능한 범위에서 2~3년 뒤까지 지원 규모와 시기를 제시",
-            "계획이 바뀌면 수원국에 미리 알림",
-            "교육, 보건, 인프라 등 여러 해가 필요한 사업을 안정적으로 계획",
-          ],
-          mark: "PLAN",
-        },
-        {
-          section: "17.16",
-          title: "개선 방법 ③ 공동 평가와 결과 공개",
-          points: [
-            "사업 시작 전 공동 목표와 평가 기준 설정",
-            "정부, 개발 파트너, 시민사회가 함께 성과를 점검",
-            "평가 결과를 공개해 다음 사업에 반영",
-          ],
-          mark: "REVIEW",
+          kind: "verbatim",
+          title: "문제2. 장기적인 지원계획 제공 부족",
+          literal: "- 구체적이고 장기적인 지원계획은",
         },
       ];
       const stage = document.querySelector("#stage");
@@ -2037,7 +2049,7 @@
         if (s.stat)
           return `<div class="statbox"><div class="bigstat">${esc(s.stat)}</div><div class="statlabel">${esc(s.label || "")}</div></div>`;
         if (s.image)
-          return `<figure class="photo ${esc(s.imageClass || "")}"><img src="${esc(s.image)}" alt="${esc(s.imageAlt || "")}" loading="lazy"><figcaption><a href="${esc(s.imageSource)}" target="_blank" rel="noopener">${esc(s.imageCaption || "사진 출처: MINUSCA - 방기 시장의 지역사회 치안 활동")}</a></figcaption></figure>`;
+          return `<figure class="photo ${esc(s.imageClass || "")}"><img src="${esc(s.image)}" alt="${esc(s.imageAlt || "")}" loading="lazy"><figcaption><a href="${esc(s.imageSource)}" target="_blank" rel="noopener">${esc(s.imageCaption || "사진 출처: MINUSCA - 방기 시장의 지역사회 치안 활동")}</a>${s.imageCredit ? `<span class="photo-credit">${esc(s.imageCredit)}</span>` : ""}</figcaption></figure>`;
         if (s.chart)
           return `<div class="media-placeholder">그래프 이미지 추가</div>`;
         if (s.compare)
@@ -2063,7 +2075,11 @@
       }
       slides.forEach((s, i) => {
         const el = document.createElement("section");
-        el.className = `slide ${s.kind || ""} ${s.dark ? "dark" : ""} ${s.graphImage ? "image-slide" : ""}`;
+        el.className = `slide ${s.kind || ""} ${s.dark ? "dark" : ""} ${s.graphImage ? "image-slide" : ""} ${s.largeDivider ? "large-divider" : ""}`;
+        if (s.roomyCopy) el.classList.add("roomy-copy");
+        if (s.emphasisCopy) el.classList.add("emphasis-copy");
+        if (s.tone === "sdg16") el.classList.add("sdg16-tone");
+        if (s.tone === "sdg17") el.classList.add("sdg17-tone");
         if (!["cover", "section", "question"].includes(s.kind))
           el.classList.add(["yellow", "teal", "blue"][i % 3]);
         el.dataset.section = s.section;
@@ -2071,9 +2087,20 @@
         if (s.kind === "cover") {
           content = `<div class="eyebrow">${esc(s.section)} - 조별 발표</div><h1 class="title">${esc(s.title).replaceAll("\n", "<br>")}</h1><p class="subtitle">${esc(s.sub)}</p><div class="cover-art"></div><div class="footer">${esc(s.note || "")}</div>`;
         } else if (s.kind === "section") {
-          content = `<div class="eyebrow">${esc(s.section)}</div><h1 class="title">${esc(s.title).replaceAll("\n", "<br>")}</h1><p class="subtitle">${esc(s.sub || "")}</p><div class="side" style="position:absolute;right:8%;bottom:9%;width:25%;height:36%"><div class="shape"></div></div><div class="footer">${esc(s.note || "")}</div>`;
+          content = s.image
+            ? `<div class="eyebrow">${esc(s.section)}</div><div class="section-image-layout"><h1 class="title">${esc(s.title).replaceAll("\n", "<br>")}</h1>${viz(s)}</div>`
+            : `<div class="eyebrow">${esc(s.section)}</div><h1 class="title">${esc(s.title).replaceAll("\n", "<br>")}</h1><p class="subtitle">${esc(s.sub || "")}</p><div class="side" style="position:absolute;right:8%;bottom:9%;width:25%;height:36%"><div class="shape"></div></div><div class="footer">${esc(s.note || "")}</div>`;
         } else if (s.kind === "question") {
           content = `<div class="eyebrow">${esc(s.section)} - 생각해볼 질문</div><h1 class="question">${esc(s.title).replaceAll("\n", "<br>")}</h1><p class="subtitle" style="margin-top:4%">${esc(s.sub || "")}</p><div class="side" style="position:absolute;right:9%;bottom:10%;width:20%;height:30%"><div class="shape"></div></div>`;
+        } else if (s.kind === "verbatim") {
+          if (s.graphImage) {
+            const [before, after = ""] = s.literal.split("(그래프)");
+            content = `<h2 class="title">${esc(s.title)}</h2><div class="verbatim-graph">${before.trim() ? `<div class="verbatim-copy">${esc(before.trim())}</div>` : ""}<figure class="graph-image"><img src="${esc(s.graphImage)}" alt="${esc(s.imageAlt)}"></figure>${after.trim() ? `<div class="verbatim-copy">${esc(after.trim())}</div>` : ""}</div>${s.sources ? `<div class="mini source-links"><span>출처</span>${s.sources.map(([label, url]) => `<a href="${esc(url)}" target="_blank" rel="noopener">${esc(label)}</a>`).join("")}</div>` : ""}`;
+          } else if (s.image) {
+            content = `<h2 class="title">${esc(s.title)}</h2><div class="verbatim-with-photo"><div class="verbatim-copy">${esc(s.literal)}</div>${viz(s)}</div>`;
+          } else {
+            content = `<h2 class="title">${esc(s.title)}</h2><div class="body full"><div class="verbatim-copy">${esc(s.literal)}</div></div>`;
+          }
         } else if (s.kind === "minimal") {
           content = `<h1 class="minimal-title">${esc(s.title)}</h1>${s.sub ? `<p class="minimal-subtitle">${esc(s.sub)}</p>` : ""}`;
         } else {
