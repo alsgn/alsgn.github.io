@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="680" viewBox="0 0 1400 680" role="img" aria-labelledby="title desc">
+  <title id="title">콜롬비아 DANE의 행정자료 로딩 시간 개선</title>
+  <desc id="desc">Data for Now가 지원한 IT 기반 개선 사례. 특정 행정자료의 로딩 시간이 45분에서 3분 미만으로 감소했다. 개선 후 막대는 3분이라는 상한을 나타낸다.</desc>
+  <defs>
+    <pattern id="upper-bound" width="12" height="12" patternUnits="userSpaceOnUse">
+      <rect width="12" height="12" fill="#fff1ec"/>
+      <path d="M-3 3L3-3M0 12L12 0M9 15L15 9" stroke="#ff6247" stroke-width="3"/>
+    </pattern>
+  </defs>
+  <rect width="1400" height="680" fill="#ffffff"/>
+  <g font-family="S-Core Dream, SCoreDream, Apple SD Gothic Neo, sans-serif" fill="#202021">
+    <text x="80" y="78" font-size="30" font-weight="700">특정 행정자료의 표 생성을 위한 로딩 시간</text>
+    <text x="80" y="123" font-size="20" fill="#77746f">콜롬비아 통계청 DANE의 추산, 2022년 UN 보고서</text>
+  </g>
+  <g stroke="#e7e4df" stroke-width="2">
+    <line x1="350" y1="180" x2="350" y2="500"/>
+    <line x1="530" y1="180" x2="530" y2="500"/>
+    <line x1="710" y1="180" x2="710" y2="500"/>
+    <line x1="890" y1="180" x2="890" y2="500"/>
+    <line x1="1070" y1="180" x2="1070" y2="500"/>
+    <line x1="1250" y1="180" x2="1250" y2="500"/>
+  </g>
+  <g font-family="S-Core Dream, SCoreDream, Apple SD Gothic Neo, sans-serif" font-size="29" fill="#202021">
+    <text x="80" y="260">IT 개선 전</text>
+    <text x="80" y="435">IT 개선 후</text>
+  </g>
+  <rect x="350" y="215" width="810" height="68" rx="6" fill="#005787"/>
+  <rect x="350" y="390" width="54" height="68" rx="2" fill="url(#upper-bound)" stroke="#ff6247" stroke-width="2" stroke-dasharray="6 4"/>
+  <g font-family="S-Core Dream, SCoreDream, Apple SD Gothic Neo, sans-serif" font-size="39" font-weight="800" fill="#202021">
+    <text x="1180" y="263">45분</text>
+    <text x="426" y="438">3분 미만</text>
+  </g>
+  <g font-family="S-Core Dream, SCoreDream, Apple SD Gothic Neo, sans-serif" font-size="20" fill="#77746f" text-anchor="middle">
+    <text x="350" y="540">0</text>
+    <text x="530" y="540">10</text>
+    <text x="710" y="540">20</text>
+    <text x="890" y="540">30</text>
+    <text x="1070" y="540">40</text>
+    <text x="1250" y="540">50분</text>
+  </g>
+  <text x="80" y="620" font-family="S-Core Dream, SCoreDream, Apple SD Gothic Neo, sans-serif" font-size="18" fill="#77746f">빗금 막대는 개선 후 시간의 3분 상한을 표시. 실제 보고 수치는 3분 미만.</text>
+</svg>
