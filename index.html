@@ -122,6 +122,9 @@
       .slide.cover {
         --bg: var(--violet);
         --accent: var(--coral);
+        container-type: inline-size;
+        justify-content: center;
+        padding: 4% 7%;
       }
       .slide.section {
         --bg: var(--coral);
@@ -461,13 +464,18 @@
         opacity: 0.65;
       }
       .cover .title {
-        font-size: clamp(38px, 6vw, 86px);
-        max-width: 75%;
-        margin-top: 5%;
+        font-size: clamp(36px, 12cqw, 148px);
+        font-weight: 900;
+        line-height: 1.08;
+        letter-spacing: -0.015em;
+        max-width: 100%;
+        margin-top: 0;
+        margin-bottom: 3%;
       }
       .cover .subtitle {
         font-size: clamp(16px, 2vw, 28px);
-        max-width: 60%;
+        max-width: 100%;
+        margin-bottom: 0;
       }
       .cover-art {
         position: absolute;
@@ -628,7 +636,56 @@
         }
       }
     </style>
+    <style id="presentation-motion">
+      @keyframes content-enter {
+        from { transform: translateY(8px); }
+        to { transform: translateY(0); }
+      }
+      @keyframes cover-enter {
+        from { opacity: 0; transform: translateY(26px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .slide.active:not(.cover) .title,
+      .slide.active .minimal-title {
+        animation: content-enter 480ms cubic-bezier(.22, 1, .36, 1) both;
+      }
+      .slide.active > .subtitle,
+      .slide.active > .minimal-subtitle {
+        animation: content-enter 480ms cubic-bezier(.22, 1, .36, 1) 60ms both;
+      }
+      .slide.active > .body,
+      .slide.active > .verbatim-graph,
+      .slide.active > .verbatim-with-photo,
+      .slide.active .section-image-layout .photo {
+        animation: content-enter 540ms cubic-bezier(.22, 1, .36, 1) 100ms both;
+      }
+      .cover .title-line {
+        display: block;
+      }
+      .cover.active .title-line {
+        animation: cover-enter 850ms cubic-bezier(.22, 1, .36, 1) var(--entry-delay, 80ms) both;
+      }
+      .cover.active > .subtitle {
+        animation: cover-enter 650ms cubic-bezier(.22, 1, .36, 1) 580ms both;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .slide.active,
+        .slide.active * {
+          animation: none !important;
+        }
+        #progress {
+          transition: none;
+        }
+      }
+    </style>
     <style id="editorial-overrides">
+      .slide.blackout {
+        --bg: var(--violet);
+        --accent: var(--coral);
+        background: var(--violet);
+        color: var(--ink);
+        padding: 0;
+      }
       .slide.roomy-copy {
         container-type: inline-size;
       }
@@ -1481,13 +1538,13 @@
         <div class="top-right">
           <span id="sectionName">INTRO</span>
           <div class="progress"><i id="progress"></i></div>
-          <span id="topCount">01 / 36</span>
+          <span id="topCount">01 / 37</span>
         </div>
       </header>
       <main class="stage" id="stage"></main>
       <nav class="controls" aria-label="슬라이드 이동">
         <button id="prev" aria-label="이전 슬라이드">←</button
-        ><span class="counter" id="counter">1 / 36</span
+        ><span class="counter" id="counter">1 / 37</span
         ><button id="next" aria-label="다음 슬라이드">→</button
         ><span class="hint">← → 키로 이동 / O 전체 보기</span>
       </nav>
@@ -1500,9 +1557,14 @@
       const slides = [
         {
           section: "INTRO",
+          kind: "blackout",
+          title: "시작 화면",
+        },
+        {
+          section: "INTRO",
           kind: "cover",
-          title: "제목 텍스트",
-          sub: "소제목 텍스트",
+          title: "개발협력의 효과를\n향상시키기\n위한 방법",
+          sub: "SDG 16.8, SDG 17.15, 그리고 SDG 17.16",
           note: "",
           mark: "SDG",
         },
@@ -2155,12 +2217,14 @@
         if (s.emphasisCopy) el.classList.add("emphasis-copy");
         if (s.tone === "sdg16") el.classList.add("sdg16-tone");
         if (s.tone === "sdg17") el.classList.add("sdg17-tone");
-        if (!["cover", "section", "question"].includes(s.kind))
+        if (!["blackout", "cover", "section", "question"].includes(s.kind))
           el.classList.add(["yellow", "teal", "blue"][i % 3]);
         el.dataset.section = s.section;
         let content = "";
-        if (s.kind === "cover") {
-          content = `<div class="eyebrow">${esc(s.section)} - 조별 발표</div><h1 class="title">${esc(s.title).replaceAll("\n", "<br>")}</h1><p class="subtitle">${esc(s.sub)}</p><div class="cover-art"></div><div class="footer">${esc(s.note || "")}</div>`;
+        if (s.kind === "blackout") {
+          content = "";
+        } else if (s.kind === "cover") {
+          content = `<h1 class="title">${s.title.split("\n").map((line, lineIndex) => `<span class="title-line" style="--entry-delay:${80 + lineIndex * 180}ms">${esc(line)}</span>`).join("")}</h1><p class="subtitle">${esc(s.sub)}</p><div class="cover-art"></div><div class="footer">${esc(s.note || "")}</div>`;
         } else if (s.kind === "section") {
           content = s.image
             ? `<div class="eyebrow">${esc(s.section)}</div><div class="section-image-layout"><h1 class="title">${esc(s.title).replaceAll("\n", "<br>")}</h1>${viz(s)}</div>`
@@ -2183,7 +2247,7 @@
         }
         el.innerHTML =
           content +
-          `<span class="page">${String(i + 1).padStart(2, "0")}</span>`;
+          (s.kind === "blackout" ? "" : `<span class="page">${String(i + 1).padStart(2, "0")}</span>`);
         stage.appendChild(el);
       });
       let at = 0;
