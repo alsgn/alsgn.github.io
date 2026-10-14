@@ -679,6 +679,18 @@
       }
     </style>
     <style id="editorial-overrides">
+      .slide.larger-type .title {
+        font-size: clamp(26px, 3.7vw, 54px);
+      }
+      .slide.larger-type .subtitle {
+        font-size: clamp(14px, 1.6vw, 23px);
+      }
+      .slide.larger-type .points {
+        gap: clamp(10px, 1.4vw, 20px);
+      }
+      .slide.larger-type .points li {
+        font-size: clamp(15px, 1.8vw, 25px);
+      }
       .slide.agenda {
         container-type: inline-size;
         --bg: var(--violet);
@@ -1871,6 +1883,7 @@
           section: "16.8",
           title: "대표 사례들",
           sub: "투표권 비율의 의미가 다른 세 기구",
+          largerType: true,
           points: [
             "IMF : 쿼터 기반 가중투표",
             "UN 총회 : 1국 1표",
@@ -2526,6 +2539,7 @@
         const el = document.createElement("section");
         el.className = `slide ${s.kind || ""} ${s.dark ? "dark" : ""} ${s.graphImage ? "image-slide" : ""} ${s.largeDivider ? "large-divider" : ""}`;
         if (s.roomyCopy) el.classList.add("roomy-copy");
+        if (s.largerType) el.classList.add("larger-type");
         if (s.emphasisCopy) el.classList.add("emphasis-copy");
         if (s.tone === "sdg16") el.classList.add("sdg16-tone");
         if (s.tone === "sdg17") el.classList.add("sdg17-tone");
