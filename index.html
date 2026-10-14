@@ -679,6 +679,28 @@
       }
     </style>
     <style id="editorial-overrides">
+      .slide.agenda {
+        container-type: inline-size;
+        --bg: var(--violet);
+        --accent: var(--coral);
+      }
+      .agenda-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        gap: clamp(12px, 2.1cqw, 28px);
+      }
+      .agenda-list li {
+        display: grid;
+        grid-template-columns: 1.5em 1fr;
+        gap: 12px;
+        font-size: clamp(14px, 2.4cqw, 32px);
+        line-height: 1.45;
+      }
+      .agenda-list .agenda-number {
+        font-weight: 800;
+      }
       .slide.intro-definition,
       .slide.intro-reasons,
       .slide.intro-framework,
@@ -1705,13 +1727,13 @@
         <div class="top-right">
           <span id="sectionName">INTRO</span>
           <div class="progress"><i id="progress"></i></div>
-          <span id="topCount">01 / 41</span>
+          <span id="topCount">01 / 42</span>
         </div>
       </header>
       <main class="stage" id="stage"></main>
       <nav class="controls" aria-label="슬라이드 이동">
         <button id="prev" aria-label="이전 슬라이드">←</button
-        ><span class="counter" id="counter">1 / 41</span
+        ><span class="counter" id="counter">1 / 42</span
         ><button id="next" aria-label="다음 슬라이드">→</button
         ><span class="hint">← → 키로 이동 / O 전체 보기</span>
       </nav>
@@ -1734,6 +1756,18 @@
           sub: "SDG 16.8, SDG 17.15, 그리고 SDG 17.16",
           note: "",
           mark: "SDG",
+        },
+        {
+          section: "INTRO",
+          kind: "agenda",
+          title: "전체 목차",
+          topics: [
+            "국제개발협력의 개념과 필요성",
+            "SDG 16.8 - 개발도상국의 국제 의사결정 참여",
+            "SDG 17.15 - 국가 데이터의 중요성",
+            "SDG 17.16 - 효과적인 개발협력과 파트너십",
+            "마무리 및 논의",
+          ],
         },
         {
           section: "INTRO",
@@ -2455,6 +2489,8 @@
           content = "";
         } else if (s.kind === "cover") {
           content = `<h1 class="title">${s.title.split("\n").map((line, lineIndex) => `<span class="title-line" style="--entry-delay:${80 + lineIndex * 180}ms">${esc(line)}</span>`).join("")}</h1><p class="subtitle">${esc(s.sub)}</p><div class="cover-art"></div><div class="footer">${esc(s.note || "")}</div>`;
+        } else if (s.kind === "agenda") {
+          content = `<h2 class="title">${esc(s.title)}</h2><div class="body full"><ol class="agenda-list">${s.topics.map((topic, topicIndex) => `<li><span class="agenda-number" aria-hidden="true">${topicIndex + 1}.</span><span>${esc(topic)}</span></li>`).join("")}</ol></div>`;
         } else if (s.kind === "intro-definition") {
           content = `<div class="definition-layout"><h2 class="title">${esc(s.title)}</h2><p class="definition-copy">${esc(s.copy)}</p></div><p class="definition-prompt">${esc(s.prompt)}</p>`;
         } else if (s.kind === "intro-reasons") {
